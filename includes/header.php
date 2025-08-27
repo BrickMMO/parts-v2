@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><?= PAGE_TITLE?> | BrickMMO Parts</title>
+    <title><?= PAGE_TITLE ? PAGE_TITLE.' | ' : ''?>BrickMMO Parts</title>
 
-    <link href="./assets/css/styles.css" type="text/css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://cdn.brickmmo.com/exceptions@1.0.0/w3.css">
+
+    <link rel="stylesheet" href="https://cdn.brickmmo.com/exceptions@1.0.0/fontawesome.css">
+
 </head>
-
 <body>
-    <!-- <a href="index.php">Home</a> -->
-    <!-- ### Code Add By Khushi ### -->
-    <nav class="navbar parts-navbar">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <img src="./assets/img/logo.png" alt="BrickMMO Parts Logo" class="img-fluid parts_img">
-            </a>
 
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn parts-btn" type="submit">
-                    Search
-                </button>
-            </form>
-        </div>
-    </nav>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
-</body>
+    <div class="w3-container" style="max-width: 1400px; margin: auto;">
+
+        <nav class="w3-row w3-section">
+            <div class="w3-col s6 w3-left-align">
+                <a href="/" style="font-size: 180%;">
+                    BrickMMO Parts
+                </a>
+            </div>
+            <div class="w3-col s6 w3-right-align">
+                <form class="d-flex">
+                    <input class="w3-input w3-border" type="search" style="display: inline-block; margin-right: 8px; width: auto;">
+                    <button class="w3-button w3-orange" style="display: inline-block;" type="submit">
+                        Search
+                    </button>
+                </form>
+            </div>
+        </nav>
+
+        <hr>
+    

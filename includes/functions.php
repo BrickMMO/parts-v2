@@ -1,5 +1,11 @@
 <?php
 
+function url_exists($url) 
+{
+    $headers = @get_headers($url, 1);
+    return $headers && strpos($headers[0], '200') !== false;
+}
+
 function redirect($page)
 {
     header('Location: '.$page);
