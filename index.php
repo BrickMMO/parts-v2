@@ -1,5 +1,11 @@
 <?php
 
+if(!isset($_GET['page']))
+{
+    header('Location: '.$_SERVER['REQUEST_URI'].'?page=1');
+    exit;
+}
+
 include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
@@ -10,30 +16,30 @@ include('includes/header.php');
 
 ?>
 
-<?php
-
-$resultsPerPage = 40;
-$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($current_page - 1) * $resultsPerPage;
-
-$query = "SELECT *,(
-        SELECT MAX(year) 
-        FROM sets 
-        WHERE sets.theme_id = themes.id
-    ) AS year
-    FROM themes 
-    WHERE parent_id = 0
-    HAVING year IS NOT NULL 
-    ORDER BY year DESC, name
-    LIMIT $offset, $resultsPerPage";
-
-$result = mysqli_query($connect, $query);
-
-?>
-
 <h1>LEGO&reg; Themes</h1>
 
 <main class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
+
+    <?php
+
+    $resultsPerPage = 40;
+    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $offset = ($current_page - 1) * $resultsPerPage;
+
+    $query = 'SELECT *,(
+            SELECT MAX(year) 
+            FROM sets 
+            WHERE sets.theme_id = themes.id
+        ) AS year
+        FROM themes 
+        WHERE parent_id = 0
+        HAVING year IS NOT NULL 
+        ORDER BY year DESC, name
+        LIMIT '.$offset.', '.$resultsPerPage;
+
+    $result = mysqli_query($connect, $query);
+
+    ?>
     
     <?php while ($theme = mysqli_fetch_assoc($result)): ?>
 
@@ -57,17 +63,17 @@ $result = mysqli_query($connect, $query);
             
             <div class="w3-card-4 w3-margin-top w3-margin-bottom" style="max-width:100%;">
                 <header class="w3-container w3-red">
-                    <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= $theme['name']; ?></h4>
+                    <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$theme['name']?></h4>
                 </header>
                 <div class="w3-container w3-center w3-padding">
                     <div style="position: relative; width: 100%; padding-top: 100%;">
-                        <a href="theme.php?id=<?= $theme['id'] ?>">
-                            <img src="<?= $set['img_url']; ?>" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 100%; max-height: 100%; object-fit: contain;">
+                        <a href="theme.php?id=<?=$theme['id']?>">
+                            <img src="<?=$set['img_url']?>" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 100%; max-height: 100%; object-fit: contain;">
                         </a>
                     </div>  
                 </div>
                 <div class="w3-container w3-center w3-padding-16">
-                    <a href="theme.php?id=<?= $theme['id'] ?>">Theme Details</a>
+                    <a href="theme.php?id=<?=$theme['id']?>">Theme Details</a>
                 </div>
             </div>
 
@@ -83,7 +89,7 @@ $result = mysqli_query($connect, $query);
 
         <?php
             
-        $query = "SELECT *,(
+        $query = 'SELECT *,(
                 SELECT MAX(year) 
                 FROM sets 
                 WHERE sets.theme_id = themes.id
@@ -91,8 +97,7 @@ $result = mysqli_query($connect, $query);
             FROM themes 
             WHERE parent_id = 0
             HAVING year IS NOT NULL 
-            ORDER BY year DESC, name";
-
+            ORDER BY year DESC, name';
         $result = mysqli_query($connect, $query);
 
         $count_row = mysqli_num_rows($result);

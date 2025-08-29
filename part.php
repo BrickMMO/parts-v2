@@ -25,7 +25,7 @@ Fetch the selected part
 
 
 
-    <h1>Part: <?= $part['name'] ?></h1>
+    <h1>Part: <?=$part['name'] ?></h1>
 
     <?php
 
