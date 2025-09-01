@@ -30,6 +30,31 @@ include('includes/header.php');
 
 <h1><?=$theme['name']?></h1>
 
+<a href="/">Home</a> &gt; 
+
+<?php
+
+$parent_id = $theme['parent_id'];
+
+while($parent_id)
+{
+    $query = 'SELECT *
+        FROM themes
+        WHERE id = "'.$parent_id.'"
+        LIMIT 1';
+    $result = mysqli_query($connect, $query);
+    $parent = mysqli_fetch_assoc($result);
+    
+    echo '<a href="theme.php?id='.$parent['id'].'">'.$parent['name'].'</a> &gt; ';
+    
+    $parent_id = $parent['parent_id'];
+}
+
+?>
+
+<?=$theme['name']?>
+
+<hr>
 
 <?php if($theme['subthemmes'] > 0): ?>
 
@@ -46,15 +71,15 @@ include('includes/header.php');
 
         <?php
 
-        $resultsPerPage = 8;
+        $results_per_page = PER_PAGE;
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $offset = ($current_page - 1) * $resultsPerPage;
+        $offset = ($current_page - 1) * $results_per_page;
 
         $query = 'SELECT *
             FROM sets 
             WHERE theme_id = "'.$_GET['id'].'"
             ORDER BY year DESC, name
-            LIMIT '.$offset.', '.$resultsPerPage;
+            LIMIT '.$offset.', '.$results_per_page;
         $result = mysqli_query($connect, $query);
 
         ?>
@@ -99,7 +124,7 @@ include('includes/header.php');
             $result = mysqli_query($connect, $query);
 
             $count_row = mysqli_num_rows($result);
-            $totalPages = ceil($count_row / $resultsPerPage);
+            $totalPages = ceil($count_row / $results_per_page);
 
             // Display pagination links
             for ($i = 1; $i <= $totalPages; $i++) 
@@ -122,9 +147,9 @@ include('includes/header.php');
 
         <?php
 
-        $resultsPerPage = 40;
+        $results_per_page = 40;
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $offset = ($current_page - 1) * $resultsPerPage;
+        $offset = ($current_page - 1) * $results_per_page;
 
         $query = 'SELECT *,(
                 SELECT MAX(year) 
@@ -135,7 +160,7 @@ include('includes/header.php');
             WHERE parent_id = "'.$_GET['id'].'"
             HAVING year IS NOT NULL 
             ORDER BY year DESC, name
-            LIMIT '.$offset.', '.$resultsPerPage;
+            LIMIT '.$offset.', '.$results_per_page;
         $result = mysqli_query($connect, $query);
 
         ?>
@@ -201,7 +226,7 @@ include('includes/header.php');
             $result = mysqli_query($connect, $query);
 
             $count_row = mysqli_num_rows($result);
-            $totalPages = ceil($count_row / $resultsPerPage);
+            $totalPages = ceil($count_row / $results_per_page);
 
             // Display pagination links
             for ($i = 1; $i <= $totalPages; $i++) 

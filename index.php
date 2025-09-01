@@ -22,9 +22,9 @@ include('includes/header.php');
 
     <?php
 
-    $resultsPerPage = 40;
+    $results_per_page = PER_PAGE;
     $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $offset = ($current_page - 1) * $resultsPerPage;
+    $offset = ($current_page - 1) * $results_per_page;
 
     $query = 'SELECT *,(
             SELECT MAX(year) 
@@ -35,7 +35,7 @@ include('includes/header.php');
         WHERE parent_id = 0
         HAVING year IS NOT NULL 
         ORDER BY year DESC, name
-        LIMIT '.$offset.', '.$resultsPerPage;
+        LIMIT '.$offset.', '.$results_per_page;
 
     $result = mysqli_query($connect, $query);
 
@@ -101,7 +101,7 @@ include('includes/header.php');
         $result = mysqli_query($connect, $query);
 
         $count_row = mysqli_num_rows($result);
-        $totalPages = ceil($count_row / $resultsPerPage);
+        $totalPages = ceil($count_row / $results_per_page);
 
         // Display pagination links
         for ($i = 1; $i <= $totalPages; $i++) 
