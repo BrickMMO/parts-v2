@@ -16,12 +16,12 @@ include('includes/header.php');
 
 ?>
 
-<h1>LEGO&reg; Colours</h1>
+<h1>LEGO&reg; Themes</h1>
 
 <nav>
     
     <a href="<?=SITE_URL?>">Home</a> &gt; 
-    Colours
+    Themes
 
 </nav>
 
@@ -33,31 +33,58 @@ include('includes/header.php');
     $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $offset = ($current_page - 1) * $results_per_page;
 
-    $query = 'SELECT *
-        FROM colors
-        ORDER BY y2 DESC, name
+    $query = 'SELECT *,(
+            SELECT MAX(year) 
+            FROM sets 
+            WHERE sets.theme_id = themes.id
+        ) AS year
+        FROM themes 
+        WHERE parent_id = 0
+        HAVING year IS NOT NULL 
+        ORDER BY year DESC, name
         LIMIT '.$offset.', '.$results_per_page;
+
     $result = mysqli_query($connect, $query);
 
     ?>
     
-    <?php while ($colour = mysqli_fetch_assoc($result)): ?>
+    <?php while ($theme = mysqli_fetch_assoc($result)): ?>
 
         <div style="width: calc(25% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+
+            <?php
+
+            $query = 'SELECT * 
+                FROM sets 
+                WHERE theme_id = '.$theme['id'].' 
+                ORDER BY year DESC, name';
+            $result2 = mysqli_query($connect, $query);
+            
+            for($i = 0; $i < mysqli_num_rows($result2); $i++) 
+            {
+                $set = mysqli_fetch_assoc($result2);
+                if(url_exists($set['img_url'])) break;
+            }
+            
+            ?>
             
             <div class="w3-card-4 w3-margin-top" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
-                <header class="w3-container w3-dark-grey">
-                    <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$colour['name']?></h4>
+                <header class="w3-container w3-green">
+                    <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$theme['name']?></h4>
                 </header>
-
-                TODO: COLOUR BOX
-                TODO: RGB
-                
-                <!---->
-                <div class="w3-container w3-center w3-padding-16">
-                    <a href="<?=SITE_URL?>colour.php?id=<?=$colour['id']?>">Colour Details</a>
+                <div class="w3-container w3-center w3-padding">
+                    <div style="position: relative; width: 100%; padding-top: 100%;">
+                        <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>">
+                            <img src="<?=$set['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                        </a>
+                    </div>  
                 </div>
-                <!---->
+
+                <!--
+                <div class="w3-container w3-center w3-padding-16">
+                    <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>">Theme Details</a>
+                </div>
+                -->
             </div>
 
         </div>

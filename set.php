@@ -45,29 +45,34 @@ $inventory = mysqli_fetch_assoc($result);
 
 <h1><?=$set['name']?></h1>
 
-<a href="<?=SITE_URL?>">Themes</a> &gt; 
-
-<?php
-
-$parent_id = $set['theme_id'];
-
-while($parent_id)
-{
-    $query = 'SELECT *
-        FROM themes
-        WHERE id = "'.$parent_id.'"
-        LIMIT 1';
-    $result = mysqli_query($connect, $query);
-    $parent = mysqli_fetch_assoc($result);
+<nav>
     
-    echo '<a href="'.SITE_URL.'theme.php?id='.$parent['id'].'">'.$parent['name'].'</a> &gt; ';
-    
-    $parent_id = $parent['parent_id'];
-}
+    <a href="<?=SITE_URL?>">Home</a> &gt; 
+    <a href="<?=SITE_URL?>">Themes</a> &gt; 
 
-?>
+    <?php
 
-<?=$set['name']?>
+    $parent_id = $set['theme_id'];
+
+    while($parent_id)
+    {
+        $query = 'SELECT *
+            FROM themes
+            WHERE id = "'.$parent_id.'"
+            LIMIT 1';
+        $result = mysqli_query($connect, $query);
+        $parent = mysqli_fetch_assoc($result);
+        
+        echo '<a href="'.SITE_URL.'theme.php?id='.$parent['id'].'">'.$parent['name'].'</a> &gt; ';
+        
+        $parent_id = $parent['parent_id'];
+    }
+
+    ?>
+
+    <?=$set['name']?>
+
+</nav>
 
 <hr>
 
@@ -89,7 +94,7 @@ while($parent_id)
         <div class="w3-col s4">
             <table class="w3-table w3-striped w3-bordered">
                 <thead>
-                    <tr class="w3-green">
+                    <tr class="w3-blue">
                         <th>Number</th>
                         <th><?=$set['set_num']?></th>
                     </tr>
@@ -281,7 +286,7 @@ while($parent_id)
 
             <div style="width: calc(15% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
                 <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
-                    <header class="w3-container w3-purple">
+                    <header class="w3-container w3-indigo">
                         <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$minifig['name']?></h6>
                     </header>
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">

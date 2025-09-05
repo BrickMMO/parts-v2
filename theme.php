@@ -30,29 +30,34 @@ include('includes/header.php');
 
 <h1><?=$theme['name']?></h1>
 
-<a href="<?=SITE_URL?>">Themes</a> &gt; 
-
-<?php
-
-$parent_id = $theme['parent_id'];
-
-while($parent_id)
-{
-    $query = 'SELECT *
-        FROM themes
-        WHERE id = "'.$parent_id.'"
-        LIMIT 1';
-    $result = mysqli_query($connect, $query);
-    $parent = mysqli_fetch_assoc($result);
+<nav>
     
-    echo '<a href="'.SITE_URL.'theme.php?id='.$parent['id'].'">'.$parent['name'].'</a> &gt; ';
-    
-    $parent_id = $parent['parent_id'];
-}
+    <a href="<?=SITE_URL?>">Home</a> &gt; 
+    <a href="<?=SITE_URL?>themes.php">Themes</a> &gt; 
 
-?>
+    <?php
 
-<?=$theme['name']?>
+    $parent_id = $theme['parent_id'];
+
+    while($parent_id)
+    {
+        $query = 'SELECT *
+            FROM themes
+            WHERE id = "'.$parent_id.'"
+            LIMIT 1';
+        $result = mysqli_query($connect, $query);
+        $parent = mysqli_fetch_assoc($result);
+        
+        echo '<a href="'.SITE_URL.'theme.php?id='.$parent['id'].'">'.$parent['name'].'</a> &gt; ';
+        
+        $parent_id = $parent['parent_id'];
+    }
+
+    ?>
+
+    <?=$theme['name']?>
+
+</nav>
 
 <hr>
 

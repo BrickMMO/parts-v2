@@ -1,11 +1,5 @@
 <?php
 
-if(!isset($_GET['page']))
-{
-    header('Location: '.$_SERVER['REQUEST_URI'].'?page=1');
-    exit;
-}
-
 include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
@@ -16,109 +10,41 @@ include('includes/header.php');
 
 ?>
 
-<h1>LEGO&reg; Themes</h1>
+<h1>LEGO&reg; Parts Directory</h1>
 
-<main class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
+<main style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 
-    <?php
+    <h2 class="w3-green w3-padding">Featured Themes</h2>
+    <p>TODO: 4 RANDOM THEMES</p>
+    <a href="<?=SITE_URL?>themes.php">View All Themes</a>
 
-    $results_per_page = PER_PAGE;
-    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $offset = ($current_page - 1) * $results_per_page;
+    <hr>
 
-    $query = 'SELECT *,(
-            SELECT MAX(year) 
-            FROM sets 
-            WHERE sets.theme_id = themes.id
-        ) AS year
-        FROM themes 
-        WHERE parent_id = 0
-        HAVING year IS NOT NULL 
-        ORDER BY year DESC, name
-        LIMIT '.$offset.', '.$results_per_page;
+    <h2 class="w3-blue w3-padding">Featued Sets</h2>
+    <p>TODO: 4 RANDOM COLOURS</p>
 
-    $result = mysqli_query($connect, $query);
+    <hr>
 
-    ?>
-    
-    <?php while ($theme = mysqli_fetch_assoc($result)): ?>
+    <h2 class="w3-indigo w3-padding">Featued Minifigs</h2>
+    <p>TODO: 4 RANDOM MINIFIGS</p>
 
-        <div style="width: calc(25% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+    <hr>
 
-            <?php
+    <h2 class="w3-purple w3-padding">Featued Parts</h2>
+    <p>TODO: 4 RANDOM PARTS</p>
 
-            $query = 'SELECT * 
-                FROM sets 
-                WHERE theme_id = '.$theme['id'].' 
-                ORDER BY year DESC, name';
-            $result2 = mysqli_query($connect, $query);
-            
-            for($i = 0; $i < mysqli_num_rows($result2); $i++) 
-            {
-                $set = mysqli_fetch_assoc($result2);
-                if(url_exists($set['img_url'])) break;
-            }
-            
-            ?>
-            
-            <div class="w3-card-4 w3-margin-top" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
-                <header class="w3-container w3-green">
-                    <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$theme['name']?></h4>
-                </header>
-                <div class="w3-container w3-center w3-padding">
-                    <div style="position: relative; width: 100%; padding-top: 100%;">
-                        <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>">
-                            <img src="<?=$set['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
-                        </a>
-                    </div>  
-                </div>
+    <hr>
 
-                <!--
-                <div class="w3-container w3-center w3-padding-16">
-                    <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>">Theme Details</a>
-                </div>
-                -->
-            </div>
+    <h2 class="w3-deep-orange w3-padding">Featured Categories</h2>
+    <p>TODO: 4 RANDOM PART CATEGORIES</p>
+    <a href="<?=SITE_URL?>categories.php">View All Categories</a>
 
-        </div>
-        
-    <?php endwhile; ?>
+    <hr>
+
+    <h2 class="w3-dark-grey w3-padding">Featured Colours</h2>
+    <p>TODO: 4 RANDOM COLOURS</p>
+    <a href="<?=SITE_URL?>colours.php">View All Colours</a>
     
 </main>
-
-<nav class="w3-text-center w3-section">
-
-    <div class="w3-bar">            
-
-        <?php
-            
-        $query = 'SELECT *,(
-                SELECT MAX(year) 
-                FROM sets 
-                WHERE sets.theme_id = themes.id
-            ) AS year
-            FROM themes 
-            WHERE parent_id = 0
-            HAVING year IS NOT NULL';
-        $result = mysqli_query($connect, $query);
-
-        $count_row = mysqli_num_rows($result);
-        $totalPages = ceil($count_row / $results_per_page);
-
-        // Display pagination links
-        for ($i = 1; $i <= $totalPages; $i++) 
-        {
-            echo '<a href="'.SITE_URL;
-            if($i > 1) echo '?page='.$i;
-            echo '" class="w3-button';
-            if($i == $current_page) echo ' w3-border';
-            echo '">'.$i.'</a>';
-        }
-
-        ?>
-
-    </div>
-
-</nav>
 
 <?php include('includes/footer.php'); ?>
