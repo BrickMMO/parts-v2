@@ -89,7 +89,13 @@ $inventory = mysqli_fetch_assoc($result);
     <main class="w3-row w3-margin-top" style="align-items: start;">
 
         <div class="w3-col s8">
-            <img src="<?= $set['img_url']; ?>" alt="<?= $set['name']; ?>" class="w3-image" style="max-width: 90%; height: auto;">
+
+            <?php if($set['img_url'] && url_exists($set['img_url'])): ?>
+                <img src="<?= $set['img_url']; ?>" alt="<?= $set['name']; ?>" class="w3-image" style="max-width: 90%; height: auto;">
+            <?php else: ?>
+                <img src="<?=SITE_URL?>images/no-image.png" alt="" class="w3-image" style="max-width: 90%; height: auto;">
+            <?php endif; ?>
+
         </div>
         <div class="w3-col s4">
             <table class="w3-table w3-striped w3-bordered">
@@ -180,7 +186,13 @@ $inventory = mysqli_fetch_assoc($result);
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
                             <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
-                                <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+
+                                <?php if($part['img_url'] && url_exists($set['img_url'])): ?>): ?>
+                                    <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php else: ?>
+                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php endif; ?>
+                                
                             </a>
                         </div>  
                     </div>
@@ -284,7 +296,7 @@ $inventory = mysqli_fetch_assoc($result);
         
         <?php while ($minifig = mysqli_fetch_assoc($result)): ?>
 
-            <div style="width: calc(15% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+            <div style="width: calc(20% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
                 <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
                     <header class="w3-container w3-indigo">
                         <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$minifig['name']?></h6>
@@ -292,7 +304,13 @@ $inventory = mysqli_fetch_assoc($result);
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
                             <a href="<?=SITE_URL?>minifig.php?id=<?=$minifig['fig_num']?>">
-                                <img src="<?=$minifig['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+
+                                <?php if($minifig['img_url'] && url_exists($minifig['img_url'])): ?>
+                                    <img src="<?=$minifig['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php else: ?>
+                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php endif; ?>
+
                             </a>
                         </div>  
                     </div>

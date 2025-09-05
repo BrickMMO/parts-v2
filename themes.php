@@ -115,7 +115,7 @@ include('includes/header.php');
         // Display pagination links
         for ($i = 1; $i <= $totalPages; $i++) 
         {
-            echo '<a href="'.SITE_URL;
+            echo '<a href="'.SITE_URL.'themes.php';
             if($i > 1) echo '?page='.$i;
             echo '" class="w3-button';
             if($i == $current_page) echo ' w3-border';

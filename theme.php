@@ -99,7 +99,13 @@ include('includes/header.php');
                     <div class="w3-container w3-center w3-padding">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
                             <a href="<?=SITE_URL?>set.php?id=<?=$set['set_num']?>">
-                                <img src="<?=$set['img_url']?>" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                
+                                <?php if($set['img_url'] && url_exists($set['img_url'])): ?>
+                                    <img src="<?=$set['img_url']?>" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php else: ?>
+                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php endif; ?>
+                                
                             </a>
                         </div>  
                     </div>
@@ -197,7 +203,9 @@ include('includes/header.php');
                     <div class="w3-container w3-center w3-padding">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
                             <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>">
+
                                 <img src="<?=$set['img_url']?>" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                
                             </a>
                         </div>  
                     </div>

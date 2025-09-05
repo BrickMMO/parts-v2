@@ -125,11 +125,13 @@ include('includes/header.php');
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
                             <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
-                                <?php if($part['img_url']): ?>
+
+                                <?php if($part['img_url'] && url_exists($part['img_url'])): ?>
                                     <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php else: ?>
                                     <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php endif; ?>
+
                             </a>
                         </div>  
                     </div>
