@@ -10,7 +10,7 @@ include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
 
-define('PAGE_TITLE', '');
+define('PAGE_TITLE', 'Categories');
 
 include('includes/header.php');
 
@@ -57,7 +57,7 @@ include('includes/header.php');
                 FROM parts 
                 WHERE part_cat_id = '.$category['id'].' 
                 ORDER BY name
-                LIMIT 2';
+                LIMIT 10';
             $result2 = mysqli_query($connect, $query);
             
             for($i = 0; $i < mysqli_num_rows($result2); $i++) 

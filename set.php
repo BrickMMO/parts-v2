@@ -157,18 +157,11 @@ $inventory = mysqli_fetch_assoc($result);
             inventory_parts.is_spare,
             inventory_parts.img_url,
             inventory_parts.quantity,
-            inventory_parts.is_spare,
-            colors.rgb,
-            colors.id AS color_id,
-            part_categories.id AS category_id,
-            part_categories.name AS category_name
+            inventory_parts.is_spare
             FROM inventory_parts
             LEFT JOIN parts 
             ON inventory_parts.part_num = parts.part_num
-            LEFT JOIN colors
-            ON inventory_parts.color_id = colors.id
-            LEFT JOIN part_categories
-            ON part_categories.id = parts.part_cat_id
+            GROUP BY inventory_parts.part_num
             WHERE inventory_id = "'.$inventory['id'].'"
             ORDER BY color_id, inventory_parts.part_num
             -- LIMIT '.$offset.', '.$results_per_page;
@@ -187,7 +180,7 @@ $inventory = mysqli_fetch_assoc($result);
                         <div style="position: relative; width: 100%; padding-top: 100%;">
                             <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
 
-                                <?php if($part['img_url'] && url_exists($set['img_url'])): ?>): ?>
+                                <?php if($part['img_url'] && url_exists($part['img_url'])): ?>
                                     <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php else: ?>
                                     <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
