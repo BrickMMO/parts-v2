@@ -3,7 +3,7 @@
 
         <footer class="w3-section w3-text-center">
             
-            <a href="https:?/brickmmo.com">BrickMMO</a> | &copy;2024
+            <a href="https://brickmmo.com">BrickMMO</a> | &copy;2024
             <br>
             <span class="w3-text-grey">
                 LEGO, the LEGO logo and the Minifigure are trademarks of the LEGO Group.

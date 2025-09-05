@@ -19,7 +19,7 @@
 
         <nav class="w3-row w3-section">
             <div class="w3-col s6 w3-left-align">
-                <a href="/" style="font-size: 180%;">
+                <a href="<?=SITE_URL?>" style="font-size: 180%;">
                     BrickMMO Parts
                 </a>
             </div>

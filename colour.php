@@ -5,78 +5,31 @@ include('includes/config.php');
 include('includes/functions.php');
 
 $query = 'SELECT *
-    FROM sets
-    WHERE set_num = "'.$_GET['id'].'"
+    FROM colors
+    WHERE id = "'.$_GET['id'].'"
     LIMIT 1';
 $result = mysqli_query($connect, $query);
 
-$set = mysqli_fetch_assoc($result);
+$colour = mysqli_fetch_assoc($result);
 
-define('PAGE_TITLE', $set['name'].' | Sets');
+define('PAGE_TITLE', $colour['name'].' | Colours');
 
 include('includes/header.php');
 
-$query = 'SELECT *
-    FROM themes
-    WHERE id = "'.$set['theme_id'].'"
-    LIMIT 1';
-$result = mysqli_query($connect, $query);
-
-$theme = mysqli_fetch_assoc($result);
-
-$query = 'SELECT *,(
-        SELECT COUNT(*) 
-        FROM inventory_parts
-        WHERE inventory_id = inventories.id
-    ) AS parts,(
-        SELECT COUNT(*) 
-        FROM inventory_minifigs
-        WHERE inventory_id = inventories.id
-    ) AS minifigs
-    FROM inventories
-    WHERE set_num = "'.$set['set_num'].'"
-    ORDER BY version DESC
-    LIMIT 1';
-$result = mysqli_query($connect, $query);
-
-$inventory = mysqli_fetch_assoc($result);
-
 ?>
 
-<h1><?=$set['name']?></h1>
+<h1><?=$colour['name']?></h1>
 
-<a href="<?=SITE_URL?>">Themes</a> &gt; 
+<a href="<?=SITE_URL?>/colours.php">Colours</a> &gt; 
 
-<?php
-
-$parent_id = $set['theme_id'];
-
-while($parent_id)
-{
-    $query = 'SELECT *
-        FROM themes
-        WHERE id = "'.$parent_id.'"
-        LIMIT 1';
-    $result = mysqli_query($connect, $query);
-    $parent = mysqli_fetch_assoc($result);
-    
-    echo '<a href="'.SITE_URL.'theme.php?id='.$parent['id'].'">'.$parent['name'].'</a> &gt; ';
-    
-    $parent_id = $parent['parent_id'];
-}
-
-?>
-
-<?=$set['name']?>
+<?=$colour['name']?>
 
 <hr>
 
 <nav>
-    <button class="w3-button w3-large w3-<?=!isset($_GET['tab']) ? 'green' : 'light-grey'?>" onclick="window.location='set.php?id=<?=$_GET['id']?>';">Details</button>
-    <button class="w3-button w3-large w3-<?=(isset($_GET['tab']) && $_GET['tab'] == 'parts') ? 'green' : 'light-grey'?>" onclick="window.location='set.php?id=<?=$_GET['id']?>&tab=parts';">Parts</button>
-    <?php if($inventory['minifigs'] > 0): ?>
-        <button class="w3-button w3-large w3-<?=(isset($_GET['tab']) && $_GET['tab'] == 'minifigs') ? 'green' : 'light-grey'?>" onclick="window.location='set.php?id=<?=$_GET['id']?>&tab=minifigs';">Minifigs</button>
-    <?php endif; ?>
+    <button class="w3-button w3-large w3-<?=!isset($_GET['tab']) ? 'green' : 'light-grey'?>" onclick="window.location='colour.php?id=<?=$_GET['id']?>';">Details</button>
+    <button class="w3-button w3-large w3-<?=(isset($_GET['tab']) && $_GET['tab'] == 'parts') ? 'green' : 'light-grey'?>" onclick="window.location='colour.php?id=<?=$_GET['id']?>&tab=parts';">Parts</button>
+    <button class="w3-button w3-large w3-<?=(isset($_GET['tab']) && $_GET['tab'] == 'sets') ? 'green' : 'light-grey'?>" onclick="window.location='colour.php?id=<?=$_GET['id']?>&tab=parts';">Sets</button>
 </nav>
 
 <?php if(!isset($_GET['tab'])): ?>
@@ -84,45 +37,41 @@ while($parent_id)
     <main class="w3-row w3-margin-top" style="align-items: start;">
 
         <div class="w3-col s8">
-            <img src="<?= $set['img_url']; ?>" alt="<?= $set['name']; ?>" class="w3-image" style="max-width: 90%; height: auto;">
+            COLOR BOX
         </div>
         <div class="w3-col s4">
             <table class="w3-table w3-striped w3-bordered">
                 <thead>
                     <tr class="w3-green">
-                        <th>Number</th>
-                        <th><?=$set['set_num']?></th>
+                        <th>Name</th>
+                        <th><?=$colour['name']?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Name</td>
-                        <td><?=$set['name']?></td>
+                        <td>RGB</td>
+                        <td>RGB VALURE - LINKABLE</td>
                     </tr>
                     <tr>
-                        <td>Year</td>
-                        <td><?=$set['year']?></td>
+                        <td>Transparent</td>
+                        <td>TRU OR FALSE</td>
                     </tr>
                     <tr>
                         <td>Number of Parts</td>
                         <td>
-                            <a href="<?=SITE_URL?>set.php?id=<?=$set['set_num']?>&tab=parts"><?=$set['num_parts']?></a>
+                            <a href="<?=SITE_URL?>colour.php?id=<?=$set['set_num']?>&tab=minifigs">PARTS LINKABLE</a>
                         </td>
                     </tr>
                     <tr>
-                        <td>Number of Minfigs</td>
+                        <td>Number of Sets</td>
                         <td>
-                            <?php if($inventory['minifigs'] > 0): ?>
-                                <a href="<?=SITE_URL?>set.php?id=<?=$set['set_num']?>&tab=minifigs"><?=$inventory['minifigs']?></a>
-                            <?php else: ?>
-                                0
-                            <?php endif; ?>
+                            <a href="<?=SITE_URL?>colour.php?id=<?=$set['set_num']?>&tab=sets">SETS LINKABLE</a>
                         </td>
                     </tr>
                     <tr>
-                        <td>Theme</td>
+                        <td>Active</td>
                         <td>
-                            <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>"><?=$theme['name']?></a>
+                            FROM YEAR - TO YEAR
                         </td>
                     </tr>
                 </tbody>
@@ -141,25 +90,23 @@ while($parent_id)
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $results_per_page;
 
-        $query = 'SELECT parts.part_num, 
+        $query = 'SELECT DISTINCT parts.part_num, 
             parts.name, 
             inventory_parts.is_spare,
             inventory_parts.img_url,
-            inventory_parts.quantity,
-            inventory_parts.is_spare,
             colors.rgb,
             colors.id AS color_id,
             part_categories.id AS category_id,
             part_categories.name AS category_name
-            FROM inventory_parts
-            LEFT JOIN parts 
+            FROM parts
+            LEFT JOIN inventory_parts
             ON inventory_parts.part_num = parts.part_num
             LEFT JOIN colors
-            ON inventory_parts.color_id = colors.id
+            ON colors.id = inventory_parts.color_id
             LEFT JOIN part_categories
             ON part_categories.id = parts.part_cat_id
-            WHERE inventory_id = "'.$inventory['id'].'"
-            ORDER BY color_id, inventory_parts.part_num
+            WHERE colors.id = "'.$colour['id'].'"
+            ORDER BY parts.name
             -- LIMIT '.$offset.', '.$results_per_page;
         $result = mysqli_query($connect, $query);
 
@@ -189,21 +136,6 @@ while($parent_id)
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    Qty: 
-                                    <?=$part['quantity']?>
-                                    <?php if($part['is_spare'] == 'True'): ?>
-                                        &#9873;
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="display: inline-block; vertical-align: middle; width: 16px; height: 16px; background-color:#<?=$part['rgb']?>;"></div>
-                                    <a href="<?=SITE_URL?>colour.php?id=<?=$part['color_id']?>">#<?=$part['rgb']?></a>
-                                </td>
-                            </tr>
                             <tr>
                                 <td>
                                     <a href="<?=SITE_URL?>category.php?id=<?=$part['category_id']?>"><?=$part['category_name']?></a>

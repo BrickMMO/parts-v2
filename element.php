@@ -5,29 +5,22 @@ include('includes/config.php');
 include('includes/functions.php');
 
 $query = 'SELECT *
-    FROM sets
-    WHERE set_num = "'.$_GET['id'].'"
+    FROM parts
+    WHERE part_num = "'.$_GET['id'].'"
+    AND 
     LIMIT 1';
 $result = mysqli_query($connect, $query);
 
-$set = mysqli_fetch_assoc($result);
+$part = mysqli_fetch_assoc($result);
 
-define('PAGE_TITLE', $set['name'].' | Sets');
+define('PAGE_TITLE', $part['name'].' | Sets');
 
 include('includes/header.php');
-
-$query = 'SELECT *
-    FROM themes
-    WHERE id = "'.$set['theme_id'].'"
-    LIMIT 1';
-$result = mysqli_query($connect, $query);
-
-$theme = mysqli_fetch_assoc($result);
 
 $query = 'SELECT *,(
         SELECT COUNT(*) 
         FROM inventory_parts
-        WHERE inventory_id = inventories.id
+        WHERE part_num = inventories.id
     ) AS parts,(
         SELECT COUNT(*) 
         FROM inventory_minifigs
@@ -141,23 +134,12 @@ while($parent_id)
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $results_per_page;
 
-        $query = 'SELECT parts.part_num, 
-            parts.name, 
-            inventory_parts.is_spare,
-            inventory_parts.img_url,
-            inventory_parts.quantity,
-            inventory_parts.is_spare,
-            colors.rgb,
-            colors.id AS color_id,
-            part_categories.id AS category_id,
-            part_categories.name AS category_name
+        $query = 'SELECT *
             FROM inventory_parts
             LEFT JOIN parts 
             ON inventory_parts.part_num = parts.part_num
             LEFT JOIN colors
             ON inventory_parts.color_id = colors.id
-            LEFT JOIN part_categories
-            ON part_categories.id = parts.part_cat_id
             WHERE inventory_id = "'.$inventory['id'].'"
             ORDER BY color_id, inventory_parts.part_num
             -- LIMIT '.$offset.', '.$results_per_page;
@@ -167,14 +149,14 @@ while($parent_id)
         
         <?php while ($part = mysqli_fetch_assoc($result)): ?>
 
-            <div style="width: calc(20% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+            <div style="width: calc(15% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
                 <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
                     <header class="w3-container w3-purple">
                         <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$part['name']?></h6>
                     </header>
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
-                            <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
+                            <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>">
                                 <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                             </a>
                         </div>  
@@ -184,7 +166,7 @@ while($parent_id)
                         <thead>
                             <tr class="w3-light-grey">
                                 <th>
-                                    <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>"><?=$part['part_num']?></a>
+                                    <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>"><?=$part['part_num']?></a>
                                 </th>
                             </tr>
                         </thead>
@@ -202,11 +184,6 @@ while($parent_id)
                                 <td>
                                     <div style="display: inline-block; vertical-align: middle; width: 16px; height: 16px; background-color:#<?=$part['rgb']?>;"></div>
                                     <a href="<?=SITE_URL?>colour.php?id=<?=$part['color_id']?>">#<?=$part['rgb']?></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="<?=SITE_URL?>category.php?id=<?=$part['category_id']?>"><?=$part['category_name']?></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -326,5 +303,104 @@ while($parent_id)
 
 <?php endif; ?>
 
+
+<?php include('includes/footer.php'); ?>
+
+
+
+
+    <h1>Part: <?=$part['name'] ?></h1>
+
+    <?php
+
+    /*
+    Fetch all the colors the selected part comes in
+    */
+    $query = 'SELECT colors.*
+        FROM colors
+        LEFT JOIN elements
+        ON color_id = id
+        WHERE part_num = "' . $part['part_num'] . '"
+        GROUP BY colors.id
+        ORDER BY name';
+    $result = mysqli_query($connect, $query);
+
+    ?>
+
+    <h2>Colours</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered parts-table">
+            <thead>
+                <tr>
+                    <th>Color</th>
+                    <th>RBG Color Demo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($color = mysqli_fetch_assoc($result)) : ?>
+                    <tr>
+                        <td><?= $color['name'] ?></td>
+                        <td style="background-color: #<?= $color['rgb'] ?>; width: 200px;"></td>
+
+                    </tr>
+
+
+                <?php endwhile; ?>
+
+                <hr>
+
+
+
+                <?php
+
+                /*
+Fetch all the sets the selected part comes with
+*/
+                $query = 'SELECT sets.*
+    FROM sets
+    LEFT JOIN inventories 
+    ON inventories.set_num = sets.set_num
+    LEFT JOIN inventory_parts
+    ON inventory_parts.inventory_id = inventories.id
+    WHERE part_num = "' . $part['part_num'] . '"
+    GROUP BY sets.set_num
+    ORDER BY name';
+                $result = mysqli_query($connect, $query);
+
+                ?>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <hr>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php while ($set = mysqli_fetch_assoc($result)) : ?>
+            <div class="col-3 mb-4">
+                <div class="card">
+                    <div class="parts-card-img-container p-2">
+                        <img class="rounded mx-auto d-block" src=<?= $set['img_url']; ?> alt="<?= $set['name']; ?>">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title parts-card-title">Set: <?= $set['name'] ?></h5>
+                        <a href="<?=SITE_URL?>part.php?id=<?= $part['part_num'] ?>">Part Details</a>
+
+                        <p class="card-text">Full Set Data:</p>
+                        <ul>
+                            <li>Set Number: <?= $set['set_num'] ?></li>
+                            <li>Year: <?= $set['year'] ?></li>
+                            <li>Theme: <?= $set['theme_id'] ?></li>
+                            <li>Number of Parts: <?= $set['num_parts'] ?></li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    </div>
+</div>
 
 <?php include('includes/footer.php'); ?>
