@@ -22,7 +22,7 @@ $result = mysqli_query($connect, $query);
 
 $theme = mysqli_fetch_assoc($result);
 
-define('PAGE_TITLE', $theme['name'].' | Sets');
+define('PAGE_TITLE', $theme['name'].' | Theme');
 
 include('includes/header.php');
 

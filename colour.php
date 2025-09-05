@@ -12,7 +12,7 @@ $result = mysqli_query($connect, $query);
 
 $colour = mysqli_fetch_assoc($result);
 
-define('PAGE_TITLE', $colour['name'].' | Colours');
+define('PAGE_TITLE', $colour['name'].' | Colour');
 
 include('includes/header.php');
 

@@ -12,7 +12,7 @@ $result = mysqli_query($connect, $query);
 
 $set = mysqli_fetch_assoc($result);
 
-define('PAGE_TITLE', $set['name'].' | Sets');
+define('PAGE_TITLE', $set['name'].' | Set');
 
 include('includes/header.php');
 

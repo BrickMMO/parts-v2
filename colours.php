@@ -10,7 +10,7 @@ include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
 
-define('PAGE_TITLE', '');
+define('PAGE_TITLE', 'Colours');
 
 include('includes/header.php');
 
