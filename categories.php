@@ -33,7 +33,15 @@ include('includes/header.php');
     $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $offset = ($current_page - 1) * $results_per_page;
 
-    $query = 'SELECT *
+    $query = 'SELECT *,(
+            SELECT img_url 
+            FROM inventory_parts
+            INNER JOIN parts
+            ON inventory_parts.part_num = parts.part_num
+            WHERE img_url IS NOT NULL
+            AND part_cat_id = part_categories.id
+            LIMIT 1
+        ) AS img_url
         FROM part_categories
         ORDER BY part_categories.name
         LIMIT '.$offset.', '.$results_per_page;
@@ -44,29 +52,6 @@ include('includes/header.php');
     <?php while ($category = mysqli_fetch_assoc($result)): ?>
 
         <div style="width: calc(25% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
-
-            <?php
-
-            $query = 'SELECT *,(
-                    SELECT img_url 
-                    FROM inventory_parts
-                    WHERE inventory_parts.part_num = parts.part_num
-                    AND img_url IS NOT NULL
-                    LIMIT 1
-                ) AS img_url
-                FROM parts 
-                WHERE part_cat_id = '.$category['id'].' 
-                ORDER BY name
-                LIMIT 10';
-            $result2 = mysqli_query($connect, $query);
-            
-            for($i = 0; $i < mysqli_num_rows($result2); $i++) 
-            {
-                $part = mysqli_fetch_assoc($result2);
-                if(url_exists($part['img_url'])) break;
-            }
-            
-            ?>
             
             <div class="w3-card-4 w3-margin-top" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
                 <header class="w3-container w3-green">
@@ -75,7 +60,7 @@ include('includes/header.php');
                 <div class="w3-container w3-center w3-padding">
                     <div style="position: relative; width: 100%; padding-top: 100%;">
                         <a href="<?=SITE_URL?>category.php?id=<?=$category['id']?>">
-                            <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                            <img src="<?=$category['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                         </a>
                     </div>  
                 </div>

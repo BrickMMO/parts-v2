@@ -24,7 +24,7 @@ include('includes/header.php');
 
 ?>
 
-<h1><?=$category['name']?></h1>
+<h1><?=$category['name']?></h1> 
 
 <nav>
     
@@ -35,6 +35,8 @@ include('includes/header.php');
 </nav>
 
 <hr>
+
+<?php die(); ?>
 
 <main class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 

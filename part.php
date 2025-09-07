@@ -5,41 +5,34 @@ include('includes/config.php');
 include('includes/functions.php');
 
 $query = 'SELECT *
-    FROM sets
-    WHERE set_num = "'.$_GET['id'].'"
+    FROM parts
+    WHERE part_num = "'.$_GET['id'].'"
     LIMIT 1';
 $result = mysqli_query($connect, $query);
 
-$set = mysqli_fetch_assoc($result);
+$part = mysqli_fetch_assoc($result);
 
-define('PAGE_TITLE', $set['name'].' | Set');
+define('PAGE_TITLE', $part['name'].' | Set');
 
 include('includes/header.php');
 
 $query = 'SELECT *
-    FROM themes
-    WHERE id = "'.$set['theme_id'].'"
+    FROM inventory_parts
+    WHERE inventory_parts.part_num = parts.part_num
+    ORDER BY y2 DESC
     LIMIT 1';
 $result = mysqli_query($connect, $query);
 
-$theme = mysqli_fetch_assoc($result);
+$element = mysqli_fetch_assoc($result);
 
-$query = 'SELECT *,(
-        SELECT COUNT(*) 
-        FROM inventory_parts
-        WHERE inventory_id = inventories.id
-    ) AS parts,(
-        SELECT COUNT(*) 
-        FROM inventory_minifigs
-        WHERE inventory_id = inventories.id
-    ) AS minifigs
-    FROM inventories
-    WHERE set_num = "'.$set['set_num'].'"
-    ORDER BY version DESC
+$query = 'SELECT *
+    FROM part_categories
+    WHERE inventory_parts.part_num = parts.part_num
+    ORDER BY y2 DESC
     LIMIT 1';
 $result = mysqli_query($connect, $query);
 
-$inventory = mysqli_fetch_assoc($result);
+$category = mysqli_fetch_assoc($result);
 
 ?>
 
@@ -48,29 +41,11 @@ $inventory = mysqli_fetch_assoc($result);
 <nav>
     
     <a href="<?=SITE_URL?>">Home</a> &gt; 
-    <a href="<?=SITE_URL?>/themes.php">Themes</a> &gt; 
+    <a href="<?=SITE_URL?>/categories.php">Categories</a> &gt; 
+    <a href="<?=SITE_URL?>/category.php?catrgory_id=<?=$category['id']?>">Categories</a> &gt; 
+    <?=$part['name']?>
 
-    <?php
-
-    $parent_id = $set['theme_id'];
-
-    while($parent_id)
-    {
-        $query = 'SELECT *
-            FROM themes
-            WHERE id = "'.$parent_id.'"
-            LIMIT 1';
-        $result = mysqli_query($connect, $query);
-        $parent = mysqli_fetch_assoc($result);
-        
-        echo '<a href="'.SITE_URL.'theme.php?id='.$parent['id'].'">'.$parent['name'].'</a> &gt; ';
-        
-        $parent_id = $parent['parent_id'];
-    }
-
-    ?>
-
-    <?=$set['name']?>
+    <?php die(); ?>
 
 </nav>
 
