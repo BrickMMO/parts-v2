@@ -148,7 +148,7 @@ $inventory = mysqli_fetch_assoc($result);
 
         <?php
 
-        $results_per_page = PER_PAGE;
+        $results_per_page = PER_PAGE * 5;
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $results_per_page;
 
@@ -157,11 +157,19 @@ $inventory = mysqli_fetch_assoc($result);
             inventory_parts.is_spare,
             inventory_parts.img_url,
             inventory_parts.quantity,
-            inventory_parts.is_spare
+            inventory_parts.is_spare,
+            colors.rgb,
+            colors.id AS color_id,
+            colors.name AS color_name,
+            part_categories.name AS category_name,
+            part_categories.id AS category_id 
             FROM inventory_parts
             LEFT JOIN parts 
             ON inventory_parts.part_num = parts.part_num
-            GROUP BY inventory_parts.part_num
+            LEFT JOIN colors
+            ON colors.id = inventory_parts.color_id
+            LEFT JOIN part_categories
+            ON parts.part_cat_id = part_categories.id
             WHERE inventory_id = "'.$inventory['id'].'"
             ORDER BY color_id, inventory_parts.part_num
             -- LIMIT '.$offset.', '.$results_per_page;
@@ -178,6 +186,7 @@ $inventory = mysqli_fetch_assoc($result);
                     </header>
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
+
                             <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
 
                                 <?php if($part['img_url'] && url_exists($part['img_url'])): ?>
@@ -187,6 +196,7 @@ $inventory = mysqli_fetch_assoc($result);
                                 <?php endif; ?>
                                 
                             </a>
+                            
                         </div>  
                     </div>
 
@@ -272,7 +282,7 @@ $inventory = mysqli_fetch_assoc($result);
 
         <?php
 
-        $results_per_page = PER_PAGE;
+        $results_per_page = PER_PAGE * 5;
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $results_per_page;
 

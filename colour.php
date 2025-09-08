@@ -89,7 +89,7 @@ include('includes/header.php');
 
         <?php
 
-        $results_per_page = PER_PAGE;
+        $results_per_page = PER_PAGE * 5;
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $results_per_page;
 

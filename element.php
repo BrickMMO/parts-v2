@@ -130,7 +130,7 @@ while($parent_id)
 
         <?php
 
-        $results_per_page = PER_PAGE;
+        $results_per_page = PER_PAGE * 5;
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $results_per_page;
 
@@ -149,7 +149,7 @@ while($parent_id)
         
         <?php while ($part = mysqli_fetch_assoc($result)): ?>
 
-            <div style="width: calc(15% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+            <div style="width: calc(20% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
                 <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
                     <header class="w3-container w3-purple">
                         <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$part['name']?></h6>
@@ -239,7 +239,7 @@ while($parent_id)
 
         <?php
 
-        $results_per_page = PER_PAGE;
+        $results_per_page = PER_PAGE * 5;
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $results_per_page;
 
@@ -256,7 +256,7 @@ while($parent_id)
         
         <?php while ($minifig = mysqli_fetch_assoc($result)): ?>
 
-            <div style="width: calc(15% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+            <div style="width: calc(20% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
                 <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
                     <header class="w3-container w3-purple">
                         <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$minifig['name']?></h6>
