@@ -4,75 +4,83 @@ include('../includes/connect.php');
 include('../includes/config.php');
 include('../includes/functions.php');
 
-$file = 'https://cdn.rebrickable.com/media/downloads/colors.csv.gz';
+// Clear table and disable keys for speed
+mysqli_query($connect, 'DELETE FROM colors');
+mysqli_query($connect, 'ALTER TABLE colors DISABLE KEYS');
 
+$file = 'https://cdn.rebrickable.com/media/downloads/colors.csv.gz';
 $tmpFile = tempnam(sys_get_temp_dir(), 'colors') . '.gz';
 file_put_contents($tmpFile, file_get_contents($file));
 
-$handle = gzopen($tmpFile, 'r');
+$tmpCsv = str_replace('.gz', '.csv', $tmpFile);
 
-$contents = '';
-while (!gzeof($handle)) 
-{
-    $contents .= gzread($handle, 4096);
+// Decompress while writing to CSV file
+$gz = gzopen($tmpFile, 'rb');
+$out = fopen($tmpCsv, 'wb');
+while (!gzeof($gz)) {
+    fwrite($out, gzread($gz, 8192));
 }
-
-gzclose($handle);
+gzclose($gz);
+fclose($out);
 unlink($tmpFile);
 
-$rows = explode("\n", $contents);
+// First pass: count rows
+$handle = fopen($tmpCsv, 'r');
+fgetcsv($handle); // skip header
+$totalRows = 0;
+while (fgetcsv($handle) !== false) {
+    $totalRows++;
+}
+fclose($handle);
 
-echo 'Rows in File: '.count($rows).'<hr>';
+echo 'Rows in File: ' . $totalRows . '<hr>';
 
-for ($i = count($rows) - 1; $i > 0; $i --)
-{
+// Second pass: insert data in batches
+$handle = fopen($tmpCsv, 'r');
+fgetcsv($handle); // skip header
 
-    $record = $rows[$i];
-    $record = str_getcsv($record);
+$batchSize = 1000;
+$rows = [];
+$counter = 0;
+
+while (($record = fgetcsv($handle)) !== false) {
     $record = array_map('trim', $record);
 
-    if(count($record) == 8)
-    {
+    if (count($record) == 8) {
+        $rows[] = sprintf(
+            '(%d,"%s","%s","%s","%s","%s","%s","%s","%s")',
+            $counter,
+            addslashes($record[0]),
+            addslashes($record[1]),
+            addslashes($record[2]),
+            addslashes($record[3]),
+            addslashes($record[4]),
+            addslashes($record[5]),
+            addslashes($record[6]),
+            addslashes($record[7])
+        );
+        $counter++;
+    }
 
-        $query = 'INSERT IGNORE INTO colors (
-                id,
-                name,
-                rgb,
-                is_trans,
-                num_parts,
-                num_sets,
-                y1,
-                y2
-            ) VALUES (
-                "'.addslashes($record[0]).'",
-                "'.addslashes($record[1]).'",
-                "'.addslashes($record[2]).'",
-                "'.addslashes($record[3]).'",
-                "'.addslashes($record[4]).'",
-                "'.addslashes($record[5]).'",
-                "'.addslashes($record[6]).'",
-                "'.addslashes($record[7]).'"
-            )';
+    // Insert batch
+    if (count($rows) >= $batchSize) {
+        $query = 'INSERT IGNORE INTO colors (`row`,id,name,rgb,is_trans,num_parts,num_sets,y1,y2) VALUES ' . implode(',', $rows);
         mysqli_query($connect, $query);
-
-        echo 'Inserting Record<br>';
-        echo $query . '<br>';
-        echo 'Added Rows: '.mysqli_affected_rows($connect).'<br>';
-
+        $rows = [];
     }
-    else
-    {
-
-        echo 'Invalid Record<br>';
-
-        echo '<pre>';
-        print_r($record);
-        echo '</pre>';
-
-    }
-
-    echo '<hr>';
-
 }
 
-echo 'IMPORT COMPLETE';
+// Insert any remaining rows
+if (count($rows)) {
+    $query = 'INSERT IGNORE INTO colors (`row`,id,name,rgb,is_trans,num_parts,num_sets,y1,y2) VALUES ' . implode(',', $rows);
+    mysqli_query($connect, $query);
+}
+
+fclose($handle);
+unlink($tmpCsv);
+
+// Re-enable keys
+mysqli_query($connect, 'ALTER TABLE colors ENABLE KEYS');
+
+echo "✅ Imported $counter records successfully.";
+?>

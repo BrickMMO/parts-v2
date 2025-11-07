@@ -4,71 +4,69 @@ include('../includes/connect.php');
 include('../includes/config.php');
 include('../includes/functions.php');
 
-$file = 'https://cdn.rebrickable.com/media/downloads/inventory_sets.csv.gz';
+// Clear table and disable keys for speed
+mysqli_query($connect, 'DELETE FROM inventory_sets');
+mysqli_query($connect, 'ALTER TABLE inventory_sets DISABLE KEYS');
 
+$file = 'https://cdn.rebrickable.com/media/downloads/inventory_sets.csv.gz';
 $tmpFile = tempnam(sys_get_temp_dir(), 'inventory_sets') . '.gz';
 file_put_contents($tmpFile, file_get_contents($file));
 
-$handle = gzopen($tmpFile, 'r');
-
-$contents = '';
-while (!gzeof($handle)) 
-{
-    $contents .= gzread($handle, 4096);
+// Decompress to CSV
+$handleGz = gzopen($tmpFile, 'r');
+$tmpCsv = str_replace('.gz', '.csv', $tmpFile);
+$out = fopen($tmpCsv, 'wb');
+while (!gzeof($handleGz)) {
+    fwrite($out, gzread($handleGz, 8192));
 }
-
-gzclose($handle);
+gzclose($handleGz);
+fclose($out);
 unlink($tmpFile);
 
-$rows = explode("\n", $contents);
+// Count total rows
+$handle = fopen($tmpCsv, 'r');
+fgetcsv($handle); // skip header
+$totalRows = 0;
+while (fgetcsv($handle) !== false) $totalRows++;
+fclose($handle);
+echo "Rows in File: $totalRows<hr>";
 
-echo 'Rows in File: '.count($rows).'<hr>';
+// Batch insert
+$handle = fopen($tmpCsv, 'r');
+fgetcsv($handle); // skip header
+$batchSize = 1000;
+$rows = [];
+$counter = 0;
 
-for ($i = count($rows) - 1; $i > 0; $i --)
-{
-
-    $record = $rows[$i];
-    $record = str_getcsv($record);
+while (($record = fgetcsv($handle)) !== false) {
     $record = array_map('trim', $record);
 
-    /*
-    echo '<pre>';
-    print_r($record);
-    echo '</pre>';
-    */
+    if (count($record) != 3) continue;
 
-    if(count($record) == 3)
-    {
+    $rows[] = sprintf(
+        '(%d,"%s","%s","%s")',
+        $counter,
+        addslashes($record[0]),
+        addslashes($record[1]),
+        addslashes($record[2])
+    );
+    $counter++;
 
-        $query = 'INSERT IGNORE INTO inventory_sets (
-                inventory_id,
-                set_num,
-                quantity
-            ) VALUES (
-                "'.addslashes($record[0]).'",
-                "'.addslashes($record[1]).'",
-                "'.addslashes($record[2]).'"
-            )';
+    if (count($rows) >= $batchSize) {
+        $query = 'INSERT IGNORE INTO inventory_sets (`row`,inventory_id,set_num,quantity) VALUES ' . implode(',', $rows);
         mysqli_query($connect, $query);
-
-        echo 'Inserting Record<br>';
-        echo $query . '<br>';
-        echo 'Added Rows: '.mysqli_affected_rows($connect).'<br>';
-
+        $rows = [];
     }
-    else
-    {
-
-        echo 'Invalid Record<br>';
-
-        echo '<pre>';
-        print_r($record);
-        echo '</pre>';
-
-    }
-
-    echo '<hr>';
-
 }
 
-echo 'IMPORT COMPLETE';
+// Insert remaining rows
+if (count($rows)) {
+    $query = 'INSERT IGNORE INTO inventory_sets (`row`,inventory_id,set_num,quantity) VALUES ' . implode(',', $rows);
+    mysqli_query($connect, $query);
+}
+
+fclose($handle);
+unlink($tmpCsv);
+mysqli_query($connect, 'ALTER TABLE inventory_sets ENABLE KEYS');
+
+echo "✅ Imported $counter records successfully.";

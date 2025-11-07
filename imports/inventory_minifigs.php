@@ -4,71 +4,82 @@ include('../includes/connect.php');
 include('../includes/config.php');
 include('../includes/functions.php');
 
-$file = 'https://cdn.rebrickable.com/media/downloads/inventory_minifigs.csv.gz';
+// Clear table and disable keys
+mysqli_query($connect, 'DELETE FROM inventory_minifigs');
+mysqli_query($connect, 'ALTER TABLE inventory_minifigs DISABLE KEYS');
 
+$file = 'https://cdn.rebrickable.com/media/downloads/inventory_minifigs.csv.gz';
 $tmpFile = tempnam(sys_get_temp_dir(), 'inventory_minifigs') . '.gz';
 file_put_contents($tmpFile, file_get_contents($file));
 
-$handle = gzopen($tmpFile, 'r');
+$tmpCsv = str_replace('.gz', '.csv', $tmpFile);
 
-$contents = '';
-while (!gzeof($handle)) 
-{
-    $contents .= gzread($handle, 4096);
+// Decompress while writing to CSV
+$gz = gzopen($tmpFile, 'rb');
+$out = fopen($tmpCsv, 'wb');
+while (!gzeof($gz)) {
+    fwrite($out, gzread($gz, 8192));
 }
-
-gzclose($handle);
+gzclose($gz);
+fclose($out);
 unlink($tmpFile);
 
-$rows = explode("\n", $contents);
+// Stream CSV and insert in batches
+$handle = fopen($tmpCsv, 'r');
+if (!$handle) die("Failed to open CSV file");
 
-echo 'Rows in File: '.count($rows).'<hr>';
+// Skip header
+fgetcsv($handle);
 
-for ($i = count($rows) - 1; $i > 0; $i --)
-{
+// First pass: count rows
+$totalRows = 0;
+while (fgetcsv($handle) !== false) {
+    $totalRows++;
+}
+fclose($handle);
 
-    $record = $rows[$i];
-    $record = str_getcsv($record);
+echo 'Rows in File: '.$totalRows.'<hr>';
+
+// Second pass: insert in batches
+$handle = fopen($tmpCsv, 'r');
+fgetcsv($handle); // skip header
+
+$batchSize = 1000;
+$rows = [];
+$counter = 0;
+
+while (($record = fgetcsv($handle)) !== false) {
     $record = array_map('trim', $record);
+    
+    if (count($record) == 3) {
+        $rows[] = sprintf(
+            '(%d,"%s","%s","%s")',
+            $counter,
+            addslashes($record[0]),
+            addslashes($record[1]),
+            addslashes($record[2])
+        );
+        $counter++;
+    }
 
-    /*
-    echo '<pre>';
-    print_r($record);
-    echo '</pre>';
-    */
-
-    if(count($record) == 3)
-    {
-
-        $query = 'INSERT IGNORE INTO inventory_minifigs (
-                inventory_id,
-                fig_num,
-                quantity
-            ) VALUES (
-                "'.addslashes($record[0]).'",
-                "'.addslashes($record[1]).'",
-                "'.addslashes($record[2]).'"
-            )';
+    // Insert batch
+    if (count($rows) >= $batchSize) {
+        $query = 'INSERT IGNORE INTO inventory_minifigs (`row`,inventory_id,fig_num,quantity) VALUES ' . implode(',', $rows);
         mysqli_query($connect, $query);
-
-        echo 'Inserting Record<br>';
-        echo $query . '<br>';
-        echo 'Added Rows: '.mysqli_affected_rows($connect).'<br>';
-
+        $rows = [];
     }
-    else
-    {
-
-        echo 'Invalid Record<br>';
-
-        echo '<pre>';
-        print_r($record);
-        echo '</pre>';
-
-    }
-
-    echo '<hr>';
-
 }
 
-echo 'IMPORT COMPLETE';
+// Insert remaining rows
+if (count($rows)) {
+    $query = 'INSERT IGNORE INTO inventory_minifigs (`row`,inventory_id,fig_num,quantity) VALUES ' . implode(',', $rows);
+    mysqli_query($connect, $query);
+}
+
+fclose($handle);
+unlink($tmpCsv);
+
+// Re-enable keys
+mysqli_query($connect, 'ALTER TABLE inventory_minifigs ENABLE KEYS');
+
+echo "✅ Imported $counter records successfully.";
