@@ -148,7 +148,7 @@ $inventory = mysqli_fetch_assoc($result);
 
         <?php
 
-        $results_per_page = PER_PAGE * 5;
+        $results_per_page = PER_PAGE * 10;
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $results_per_page;
 
@@ -172,7 +172,7 @@ $inventory = mysqli_fetch_assoc($result);
             ON parts.part_cat_id = part_categories.id
             WHERE inventory_id = "'.$inventory['id'].'"
             ORDER BY color_id, inventory_parts.part_num
-            -- LIMIT '.$offset.', '.$results_per_page;
+            LIMIT '.$offset.', '.$results_per_page;
         $result = mysqli_query($connect, $query);
 
         ?>
@@ -190,9 +190,9 @@ $inventory = mysqli_fetch_assoc($result);
                             <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
 
                                 <?php if($part['img_url'] && url_exists($part['img_url'])): ?>
-                                    <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                    <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;" loading="lazy">
                                 <?php else: ?>
-                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;" loading="lazy">
                                 <?php endif; ?>
                                 
                             </a>
@@ -244,7 +244,6 @@ $inventory = mysqli_fetch_assoc($result);
         
     </main>
 
-    <?php /*
     <nav class="w3-text-center w3-section">
 
         <div class="w3-bar">            
@@ -262,7 +261,7 @@ $inventory = mysqli_fetch_assoc($result);
             // Display pagination links
             for ($i = 1; $i <= $totalPages; $i++) 
             {
-                echo '<a href="'.SITE_URL.'theme.php?id='.$_GET['id'];
+                echo '<a href="'.SITE_URL.'set.php?id='.$_GET['id'].'&tab=parts';
                 if($i > 1) echo '&page='.$i;
                 echo '" class="w3-button';
                 if($i == $current_page) echo ' w3-border';
@@ -274,7 +273,6 @@ $inventory = mysqli_fetch_assoc($result);
         </div>
 
     </nav>
-    */ ?>
 
 <?php elseif($_GET['tab'] == 'minifigs'): ?>
 
@@ -335,13 +333,7 @@ $inventory = mysqli_fetch_assoc($result);
                             </tr>
                         </tbody>
                     </table>
-
-
-                    <!--
-                    <div class="w3-container w3-center w3-padding-16">
-                        <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>">Part Details</a>
-                    </div>
-                    -->
+                    
                 </div>
             </div>
             
