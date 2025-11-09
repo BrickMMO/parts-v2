@@ -32,8 +32,8 @@ include('includes/header.php');
 
 <nav>
     
-    <a href="<?=SITE_URL?>">Home</a> &gt; 
-    <a href="<?=SITE_URL?>themes.php">Themes</a> &gt; 
+    <a href="<?=SITE_URL?>/">Home</a> &gt; 
+    <a href="<?=SITE_URL?>/themes.php">Themes</a> &gt; 
 
     <?php
 
@@ -98,12 +98,12 @@ include('includes/header.php');
                     </header>
                     <div class="w3-container w3-center w3-padding">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
-                            <a href="<?=SITE_URL?>set.php?id=<?=$set['set_num']?>">
+                            <a href="<?=SITE_URL?>/set.php?id=<?=$set['set_num']?>">
                                 
                                 <?php if($set['img_url'] && url_exists($set['img_url'])): ?>
                                     <img src="<?=$set['img_url']?>" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php else: ?>
-                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                    <img src="<?=SITE_URL?>/images/no-image.png" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php endif; ?>
                                 
                             </a>
@@ -112,7 +112,7 @@ include('includes/header.php');
 
                     <!--
                     <div class="w3-container w3-center w3-padding-16">
-                        <a href="<?=SITE_URL?>set.php?id=<?=$set['set_num']?>">Set Details</a>
+                        <a href="<?=SITE_URL?>/set.php?id=<?=$set['set_num']?>">Set Details</a>
                     </div>
                     -->
                 </div>
@@ -202,7 +202,7 @@ include('includes/header.php');
                     </header>
                     <div class="w3-container w3-center w3-padding">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
-                            <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>">
+                            <a href="<?=SITE_URL?>/theme.php?id=<?=$theme['id']?>">
 
                                 <img src="<?=$set['img_url']?>" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 
@@ -212,7 +212,7 @@ include('includes/header.php');
                     
                     <!--
                     <div class="w3-container w3-center w3-padding-16">
-                        <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>">Theme Details</a>
+                        <a href="<?=SITE_URL?>/theme.php?id=<?=$theme['id']?>">Theme Details</a>
                     </div>
                     -->
 

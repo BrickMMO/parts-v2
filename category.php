@@ -28,8 +28,8 @@ include('includes/header.php');
 
 <nav>
     
-    <a href="<?=SITE_URL?>">Home</a> &gt; 
-    <a href="<?=SITE_URL?>categories.php">Categories</a> &gt; 
+    <a href="<?=SITE_URL?>/">Home</a> &gt; 
+    <a href="<?=SITE_URL?>/categories.php">Categories</a> &gt; 
     <?=$category['name']?>
 
 </nav>
@@ -94,12 +94,12 @@ include('includes/header.php');
                     </header>
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
-                            <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
+                            <a href="<?=SITE_URL?>/element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
 
                                 <?php if($image && $image['img_url'] && url_exists($image['img_url'])): ?>
                                     <img src="<?=$image['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php else: ?>
-                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                    <img src="<?=SITE_URL?>/images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php endif; ?>
                                 
                             </a>
@@ -110,14 +110,14 @@ include('includes/header.php');
                         <thead>
                             <tr class="w3-light-grey">
                                 <th>
-                                    <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>"><?=$part['part_num']?></a>
+                                    <a href="<?=SITE_URL?>/element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>"><?=$part['part_num']?></a>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <a href="<?=SITE_URL?>category.php?id=<?=$part['category_id']?>"><?=$part['category_name']?></a>
+                                    <a href="<?=SITE_URL?>/category.php?id=<?=$part['category_id']?>"><?=$part['category_name']?></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -125,7 +125,7 @@ include('includes/header.php');
 
                     <!--
                     <div class="w3-container w3-center w3-padding-16">
-                        <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>">Part Details</a>
+                        <a href="<?=SITE_URL?>/part.php?id=<?=$part['part_num']?>">Part Details</a>
                     </div>
                     -->
                 </div>

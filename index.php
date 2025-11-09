@@ -16,7 +16,7 @@ include('includes/header.php');
 
     <h2 class="w3-green w3-padding">Featured Themes</h2>
     <p>TODO: 4 RANDOM THEMES</p>
-    <a href="<?=SITE_URL?>themes.php">View All Themes</a>
+    <a href="<?=SITE_URL?>/themes.php">View All Themes</a>
 
     <hr>
 
@@ -37,13 +37,13 @@ include('includes/header.php');
 
     <h2 class="w3-deep-orange w3-padding">Featured Categories</h2>
     <p>TODO: 4 RANDOM PART CATEGORIES</p>
-    <a href="<?=SITE_URL?>categories.php">View All Categories</a>
+    <a href="<?=SITE_URL?>/categories.php">View All Categories</a>
 
     <hr>
 
     <h2 class="w3-dark-grey w3-padding">Featured Colours</h2>
     <p>TODO: 4 RANDOM COLOURS</p>
-    <a href="<?=SITE_URL?>colours.php">View All Colours</a>
+    <a href="<?=SITE_URL?>/colours.php">View All Colours</a>
     
 </main>
 

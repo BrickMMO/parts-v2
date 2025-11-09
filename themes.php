@@ -20,7 +20,7 @@ include('includes/header.php');
 
 <nav>
     
-    <a href="<?=SITE_URL?>">Home</a> &gt; 
+    <a href="<?=SITE_URL?>/">Home</a> &gt; 
     Themes
 
 </nav>
@@ -74,7 +74,7 @@ include('includes/header.php');
                 </header>
                 <div class="w3-container w3-center w3-padding">
                     <div style="position: relative; width: 100%; padding-top: 100%;">
-                        <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>">
+                        <a href="<?=SITE_URL?>/theme.php?id=<?=$theme['id']?>">
                             <img src="<?=$set['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                         </a>
                     </div>  
@@ -82,7 +82,7 @@ include('includes/header.php');
 
                 <!--
                 <div class="w3-container w3-center w3-padding-16">
-                    <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>">Theme Details</a>
+                    <a href="<?=SITE_URL?>/theme.php?id=<?=$theme['id']?>">Theme Details</a>
                 </div>
                 -->
             </div>

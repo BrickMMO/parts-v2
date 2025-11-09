@@ -20,7 +20,7 @@ include('includes/header.php');
 
 <nav>
     
-    <a href="<?=SITE_URL?>">Home</a> &gt; 
+    <a href="<?=SITE_URL?>/">Home</a> &gt; 
     Colours
 
 </nav>
@@ -55,7 +55,7 @@ include('includes/header.php');
                 
                 <!---->
                 <div class="w3-container w3-center w3-padding-16">
-                    <a href="<?=SITE_URL?>colour.php?id=<?=$colour['id']?>">Colour Details</a>
+                    <a href="<?=SITE_URL?>/colour.php?id=<?=$colour['id']?>">Colour Details</a>
                 </div>
                 <!---->
             </div>

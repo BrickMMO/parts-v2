@@ -38,7 +38,7 @@ $inventory = mysqli_fetch_assoc($result);
 
 <h1><?=$set['name']?></h1>
 
-<a href="<?=SITE_URL?>">Themes</a> &gt; 
+<a href="<?=SITE_URL?>/">Themes</a> &gt; 
 
 <?php
 
@@ -99,14 +99,14 @@ while($parent_id)
                     <tr>
                         <td>Number of Parts</td>
                         <td>
-                            <a href="<?=SITE_URL?>set.php?id=<?=$set['set_num']?>&tab=parts"><?=$set['num_parts']?></a>
+                            <a href="<?=SITE_URL?>/set.php?id=<?=$set['set_num']?>&tab=parts"><?=$set['num_parts']?></a>
                         </td>
                     </tr>
                     <tr>
                         <td>Number of Minfigs</td>
                         <td>
                             <?php if($inventory['minifigs'] > 0): ?>
-                                <a href="<?=SITE_URL?>set.php?id=<?=$set['set_num']?>&tab=minifigs"><?=$inventory['minifigs']?></a>
+                                <a href="<?=SITE_URL?>/set.php?id=<?=$set['set_num']?>&tab=minifigs"><?=$inventory['minifigs']?></a>
                             <?php else: ?>
                                 0
                             <?php endif; ?>
@@ -115,7 +115,7 @@ while($parent_id)
                     <tr>
                         <td>Theme</td>
                         <td>
-                            <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>"><?=$theme['name']?></a>
+                            <a href="<?=SITE_URL?>/theme.php?id=<?=$theme['id']?>"><?=$theme['name']?></a>
                         </td>
                     </tr>
                 </tbody>
@@ -156,7 +156,7 @@ while($parent_id)
                     </header>
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
-                            <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>">
+                            <a href="<?=SITE_URL?>/part.php?id=<?=$part['part_num']?>">
                                 <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                             </a>
                         </div>  
@@ -166,7 +166,7 @@ while($parent_id)
                         <thead>
                             <tr class="w3-light-grey">
                                 <th>
-                                    <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>"><?=$part['part_num']?></a>
+                                    <a href="<?=SITE_URL?>/part.php?id=<?=$part['part_num']?>"><?=$part['part_num']?></a>
                                 </th>
                             </tr>
                         </thead>
@@ -183,7 +183,7 @@ while($parent_id)
                             <tr>
                                 <td>
                                     <div style="display: inline-block; vertical-align: middle; width: 16px; height: 16px; background-color:#<?=$part['rgb']?>;"></div>
-                                    <a href="<?=SITE_URL?>colour.php?id=<?=$part['color_id']?>">#<?=$part['rgb']?></a>
+                                    <a href="<?=SITE_URL?>/colour.php?id=<?=$part['color_id']?>">#<?=$part['rgb']?></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -191,7 +191,7 @@ while($parent_id)
 
                     <!--
                     <div class="w3-container w3-center w3-padding-16">
-                        <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>">Part Details</a>
+                        <a href="<?=SITE_URL?>/part.php?id=<?=$part['part_num']?>">Part Details</a>
                     </div>
                     -->
                 </div>
@@ -263,7 +263,7 @@ while($parent_id)
                     </header>
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
-                            <a href="<?=SITE_URL?>minifig.php?id=<?=$minifig['fig_num']?>">
+                            <a href="<?=SITE_URL?>/minifig.php?id=<?=$minifig['fig_num']?>">
                                 <img src="<?=$minifig['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                             </a>
                         </div>  
@@ -273,7 +273,7 @@ while($parent_id)
                         <thead>
                             <tr class="w3-light-grey">
                                 <th>
-                                    <a href="<?=SITE_URL?>minifig.php?id=<?=$minifig['fig_num']?>"><?=$minifig['fig_num']?></a>
+                                    <a href="<?=SITE_URL?>/minifig.php?id=<?=$minifig['fig_num']?>"><?=$minifig['fig_num']?></a>
                                 </th>
                             </tr>
                         </thead>
@@ -290,7 +290,7 @@ while($parent_id)
 
                     <!--
                     <div class="w3-container w3-center w3-padding-16">
-                        <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>">Part Details</a>
+                        <a href="<?=SITE_URL?>/part.php?id=<?=$part['part_num']?>">Part Details</a>
                     </div>
                     -->
                 </div>
@@ -385,7 +385,7 @@ Fetch all the sets the selected part comes with
                     </div>
                     <div class="card-body">
                         <h5 class="card-title parts-card-title">Set: <?= $set['name'] ?></h5>
-                        <a href="<?=SITE_URL?>part.php?id=<?= $part['part_num'] ?>">Part Details</a>
+                        <a href="<?=SITE_URL?>/part.php?id=<?= $part['part_num'] ?>">Part Details</a>
 
                         <p class="card-text">Full Set Data:</p>
                         <ul>

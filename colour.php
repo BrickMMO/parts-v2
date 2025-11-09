@@ -22,7 +22,7 @@ include('includes/header.php');
 
 <nav>
     
-    <a href="<?=SITE_URL?>">Home</a> &gt;
+    <a href="<?=SITE_URL?>/">Home</a> &gt;
     <a href="<?=SITE_URL?>/colours.php">Colours</a> &gt; 
     <?=$colour['name']?>
 
@@ -62,13 +62,13 @@ include('includes/header.php');
                     <tr>
                         <td>Number of Parts</td>
                         <td>
-                            <a href="<?=SITE_URL?>colour.php?id=<?=$set['set_num']?>&tab=minifigs">PARTS LINKABLE</a>
+                            <a href="<?=SITE_URL?>/colour.php?id=<?=$set['set_num']?>&tab=minifigs">PARTS LINKABLE</a>
                         </td>
                     </tr>
                     <tr>
                         <td>Number of Sets</td>
                         <td>
-                            <a href="<?=SITE_URL?>colour.php?id=<?=$set['set_num']?>&tab=sets">SETS LINKABLE</a>
+                            <a href="<?=SITE_URL?>/colour.php?id=<?=$set['set_num']?>&tab=sets">SETS LINKABLE</a>
                         </td>
                     </tr>
                     <tr>
@@ -124,12 +124,12 @@ include('includes/header.php');
                     </header>
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
-                            <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
+                            <a href="<?=SITE_URL?>/element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
 
                                 <?php if($part['img_url'] && url_exists($part['img_url'])): ?>
                                     <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php else: ?>
-                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                    <img src="<?=SITE_URL?>/images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php endif; ?>
 
                             </a>
@@ -140,7 +140,7 @@ include('includes/header.php');
                         <thead>
                             <tr class="w3-light-grey">
                                 <th>
-                                    <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>"><?=$part['part_num']?></a>
+                                    <a href="<?=SITE_URL?>/element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>"><?=$part['part_num']?></a>
                                 </th>
                             </tr>
                         </thead>
@@ -148,7 +148,7 @@ include('includes/header.php');
                             <tr>
                                 <td>
                                     <?php if($part['category_id']): ?>
-                                        <a href="<?=SITE_URL?>category.php?id=<?=$part['category_id']?>"><?=$part['category_name']?></a>
+                                        <a href="<?=SITE_URL?>/category.php?id=<?=$part['category_id']?>"><?=$part['category_name']?></a>
                                     <?php else: ?>
                                         <span class="w3-text-grey">No Category</span>
                                     <?php endif; ?>
@@ -159,7 +159,7 @@ include('includes/header.php');
 
                     <!--
                     <div class="w3-container w3-center w3-padding-16">
-                        <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>">Part Details</a>
+                        <a href="<?=SITE_URL?>/part.php?id=<?=$part['part_num']?>">Part Details</a>
                     </div>
                     -->
                 </div>

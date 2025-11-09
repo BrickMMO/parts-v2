@@ -47,7 +47,7 @@ $inventory = mysqli_fetch_assoc($result);
 
 <nav>
     
-    <a href="<?=SITE_URL?>">Home</a> &gt; 
+    <a href="<?=SITE_URL?>/">Home</a> &gt; 
     <a href="<?=SITE_URL?>/themes.php">Themes</a> &gt; 
 
     <?php
@@ -93,7 +93,7 @@ $inventory = mysqli_fetch_assoc($result);
             <?php if($set['img_url'] && url_exists($set['img_url'])): ?>
                 <img src="<?= $set['img_url']; ?>" alt="<?= $set['name']; ?>" class="w3-image" style="max-width: 90%; height: auto;">
             <?php else: ?>
-                <img src="<?=SITE_URL?>images/no-image.png" alt="" class="w3-image" style="max-width: 90%; height: auto;">
+                <img src="<?=SITE_URL?>/images/no-image.png" alt="" class="w3-image" style="max-width: 90%; height: auto;">
             <?php endif; ?>
 
         </div>
@@ -117,14 +117,14 @@ $inventory = mysqli_fetch_assoc($result);
                     <tr>
                         <td>Number of Parts</td>
                         <td>
-                            <a href="<?=SITE_URL?>set.php?id=<?=$set['set_num']?>&tab=parts"><?=$set['num_parts']?></a>
+                            <a href="<?=SITE_URL?>/set.php?id=<?=$set['set_num']?>&tab=parts"><?=$set['num_parts']?></a>
                         </td>
                     </tr>
                     <tr>
                         <td>Number of Minfigs</td>
                         <td>
                             <?php if($inventory['minifigs'] > 0): ?>
-                                <a href="<?=SITE_URL?>set.php?id=<?=$set['set_num']?>&tab=minifigs"><?=$inventory['minifigs']?></a>
+                                <a href="<?=SITE_URL?>/set.php?id=<?=$set['set_num']?>&tab=minifigs"><?=$inventory['minifigs']?></a>
                             <?php else: ?>
                                 0
                             <?php endif; ?>
@@ -133,7 +133,7 @@ $inventory = mysqli_fetch_assoc($result);
                     <tr>
                         <td>Theme</td>
                         <td>
-                            <a href="<?=SITE_URL?>theme.php?id=<?=$theme['id']?>"><?=$theme['name']?></a>
+                            <a href="<?=SITE_URL?>/theme.php?id=<?=$theme['id']?>"><?=$theme['name']?></a>
                         </td>
                     </tr>
                 </tbody>
@@ -187,12 +187,12 @@ $inventory = mysqli_fetch_assoc($result);
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
 
-                            <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
+                            <a href="<?=SITE_URL?>/element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
 
                                 <?php if($part['img_url'] && url_exists($part['img_url'])): ?>
                                     <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;" loading="lazy">
                                 <?php else: ?>
-                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;" loading="lazy">
+                                    <img src="<?=SITE_URL?>/images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;" loading="lazy">
                                 <?php endif; ?>
                                 
                             </a>
@@ -204,7 +204,7 @@ $inventory = mysqli_fetch_assoc($result);
                         <thead>
                             <tr class="w3-light-grey">
                                 <th>
-                                    <a href="<?=SITE_URL?>element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>"><?=$part['part_num']?></a>
+                                    <a href="<?=SITE_URL?>/element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>"><?=$part['part_num']?></a>
                                 </th>
                             </tr>
                         </thead>
@@ -221,12 +221,12 @@ $inventory = mysqli_fetch_assoc($result);
                             <tr>
                                 <td>
                                     <div style="display: inline-block; vertical-align: middle; width: 16px; height: 16px; background-color:#<?=$part['rgb']?>;"></div>
-                                    <a href="<?=SITE_URL?>colour.php?id=<?=$part['color_id']?>">#<?=$part['rgb']?></a>
+                                    <a href="<?=SITE_URL?>/colour.php?id=<?=$part['color_id']?>">#<?=$part['rgb']?></a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="<?=SITE_URL?>category.php?id=<?=$part['category_id']?>"><?=$part['category_name']?></a>
+                                    <a href="<?=SITE_URL?>/category.php?id=<?=$part['category_id']?>"><?=$part['category_name']?></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -234,7 +234,7 @@ $inventory = mysqli_fetch_assoc($result);
 
                     <!--
                     <div class="w3-container w3-center w3-padding-16">
-                        <a href="<?=SITE_URL?>part.php?id=<?=$part['part_num']?>">Part Details</a>
+                        <a href="<?=SITE_URL?>/part.php?id=<?=$part['part_num']?>">Part Details</a>
                     </div>
                     -->
                 </div>
@@ -304,12 +304,12 @@ $inventory = mysqli_fetch_assoc($result);
                     </header>
                     <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
                         <div style="position: relative; width: 100%; padding-top: 100%;">
-                            <a href="<?=SITE_URL?>minifig.php?id=<?=$minifig['fig_num']?>">
+                            <a href="<?=SITE_URL?>/minifig.php?id=<?=$minifig['fig_num']?>">
 
                                 <?php if($minifig['img_url'] && url_exists($minifig['img_url'])): ?>
                                     <img src="<?=$minifig['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php else: ?>
-                                    <img src="<?=SITE_URL?>images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                    <img src="<?=SITE_URL?>/images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                 <?php endif; ?>
 
                             </a>
@@ -320,7 +320,7 @@ $inventory = mysqli_fetch_assoc($result);
                         <thead>
                             <tr class="w3-light-grey">
                                 <th>
-                                    <a href="<?=SITE_URL?>minifig.php?id=<?=$minifig['fig_num']?>"><?=$minifig['fig_num']?></a>
+                                    <a href="<?=SITE_URL?>/minifig.php?id=<?=$minifig['fig_num']?>"><?=$minifig['fig_num']?></a>
                                 </th>
                             </tr>
                         </thead>

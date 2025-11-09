@@ -15,11 +15,13 @@
 </head>
 <body>
 
+    <script src="https://cdn.brickmmo.com/bar@1.1.0/bar.js"></script>
+
     <div class="w3-container" style="max-width: 1400px; margin: auto;">
 
         <nav class="w3-row w3-section">
             <div class="w3-col s6 w3-left-align">
-                <a href="<?=SITE_URL?>" style="font-size: 180%;">
+                <a href="<?=SITE_URL?>/" style="font-size: 180%;">
                     BrickMMO Parts
                 </a>
             </div>
