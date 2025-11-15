@@ -15,15 +15,6 @@
 </head>
 <body>
 
-    <script 
-        src="<?=ENV_LOCAL ? 'http://local.sso.brickmmo.com:7777/bar.js' : 'https://cdn.brickmmo.com/bar@1.1.0/bar.js'?>"
-        data-console="false"
-        data-menu="false"
-        data-admin="false"
-        data-local="<?=ENV_LOCAL ? 'true' : 'false'?>"
-        data-https="<?=ENV_LOCAL ? 'false' : 'true'?>"
-    ></script>
-
     <div class="w3-container" style="max-width: 1400px; margin: auto;">
 
         <nav class="w3-row w3-section">
