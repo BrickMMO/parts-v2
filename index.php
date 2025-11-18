@@ -22,7 +22,25 @@ include('includes/header.php');
 
     <h2 class="w3-blue w3-padding">Featured Sets</h2>
     <p>TODO: 4 RANDOM SETS</p>
+        <?php 
 
+            $query= 'SELECT * FROM sets ORDER BY RAND() LIMIT 4';
+            $result = mysqli_query($connect, $query);
+
+
+            while($randomSet = mysqli_fetch_assoc($result)) {
+                // var_dump($randomSet);
+                echo '
+                    <div>
+                        <img src="' . $randomSet["img_url"] . '" width="100" >
+                        <p>"' . $randomSet["name"] .'" </p>
+                        <p>"' . $randomSet["year"] .'" </p>
+                    </div>
+                ';
+            }
+
+
+        ?>
     <hr>
 
     <h2 class="w3-indigo w3-padding">Featued Minifigures</h2>
