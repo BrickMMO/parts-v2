@@ -16,16 +16,16 @@ include('includes/header.php');
 
     <h2 class="w3-green w3-padding">Featured Themes</h2>
     <p>TODO: 4 RANDOM THEMES</p>
-    <a href="<?=SITE_URL?>/themes.php">View All Themes</a>
+    <a href="<?=SITE_URL?>/themes.php">View Ahegcvjgesgll Themes</a>
 
     <hr>
 
-    <h2 class="w3-blue w3-padding">Featured Sets</h2>
+    <h2 class="w3-blue w3-padding">Fzxdcfzghcvatured Sets</h2>
     <p>TODO: 4 RANDOM SETS</p>
 
     <hr>
 
-    <h2 class="w3-indigo w3-padding">Featued Minifigures</h2>
+    <h2 class="w3-indigo w3-padding">Featueahjfkgjchgded Minifigures</h2>
     <p>TODO: 4 RANDOM MINIFIGURES</p>
 
     <hr>
@@ -35,13 +35,13 @@ include('includes/header.php');
 
     <hr>
 
-    <h2 class="w3-deep-orange w3-padding">Featured Categories</h2>
+    <h2 class="w3-deep-orange w3-padding">Featuerxcfyvgjgfgred Categories</h2>
     <p>TODO: 4 RANDOM PART CATEGORIES</p>
     <a href="<?=SITE_URL?>/categories.php">View All Categories</a>
 
     <hr>
 
-    <h2 class="w3-dark-grey w3-padding">Featured Colours</h2>
+    <h2 class="w3-dark-grey w3-padding">Feafegfc tured Colours</h2>
     <p>TODO: 4 RANDOM COLOURS</p>
     <a href="<?=SITE_URL?>/colours.php">View All Colours</a>
     
