@@ -29,7 +29,7 @@ include('includes/header.php');
 <nav>
     
     <a href="<?=SITE_URL?>/">Home</a> &gt; 
-    <a href="<?=SITE_URL?>/categories.php">Categories</a> &gt; 
+    <a href="<?=SITE_URL?>/categories.php">CategoRRRRRRries</a> &gt; 
     <?=$category['name']?>
 
 </nav>

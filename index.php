@@ -20,7 +20,7 @@ include('includes/header.php');
 
     <hr>
 
-    <h2 class="w3-blue w3-padding">Featued Sets</h2>
+    <h2 class="w3-blue w3-padding">Fffffffeatued Sets</h2>
     <p>TODO: 4 RANDOM SETS</p>
 
     <hr>

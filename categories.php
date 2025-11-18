@@ -16,7 +16,7 @@ include('includes/header.php');
 
 ?>
 
-<h1>LEGO&reg; Categories</h1>
+<h1>LEGO&reg; CategorRRRRRRRRies</h1>
 
 <nav>
     
