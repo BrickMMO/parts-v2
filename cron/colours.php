@@ -9,41 +9,37 @@ mysqli_query($connect, 'DELETE FROM colors');
 mysqli_query($connect, 'ALTER TABLE colors DISABLE KEYS');
 
 $file = 'https://cdn.rebrickable.com/media/downloads/colors.csv.gz';
-$tmpFile = tempnam(sys_get_temp_dir(), 'colors') . '.gz';
-file_put_contents($tmpFile, file_get_contents($file));
 
-$tmpCsv = str_replace('.gz', '.csv', $tmpFile);
-
-// Decompress while writing to CSV file
-$gz = gzopen($tmpFile, 'rb');
-$out = fopen($tmpCsv, 'wb');
-while (!gzeof($gz)) {
-    fwrite($out, gzread($gz, 8192));
+// Download the compressed file content into memory
+echo "Downloading colors file...<br>";
+$compressedData = file_get_contents($file);
+if ($compressedData === false) {
+    die('Error: Failed to download the colors file.');
 }
-gzclose($gz);
-fclose($out);
-unlink($tmpFile);
 
-// First pass: count rows
-$handle = fopen($tmpCsv, 'r');
-fgetcsv($handle); // skip header
-$totalRows = 0;
-while (fgetcsv($handle) !== false) {
-    $totalRows++;
+// Decompress the data in memory
+echo "Decompressing data...<br>";
+$csvData = gzdecode($compressedData);
+if ($csvData === false) {
+    die('Error: Failed to decompress the file.');
 }
-fclose($handle);
 
+// Convert to array of lines for processing
+$lines = explode("\n", $csvData);
+$header = array_shift($lines); // Remove header
+$lines = array_filter($lines); // Remove empty lines
+
+// Count rows
+$totalRows = count($lines);
 echo 'Rows in File: ' . $totalRows . '<hr>';
 
-// Second pass: insert data in batches
-$handle = fopen($tmpCsv, 'r');
-fgetcsv($handle); // skip header
-
+// Process data in batches
 $batchSize = 1000;
 $rows = [];
 $counter = 0;
 
-while (($record = fgetcsv($handle)) !== false) {
+foreach ($lines as $line) {
+    $record = str_getcsv($line);
     $record = array_map('trim', $record);
 
     if (count($record) == 8) {
@@ -75,9 +71,6 @@ if (count($rows)) {
     $query = 'INSERT IGNORE INTO colors (`row`,id,name,rgb,is_trans,num_parts,num_sets,y1,y2) VALUES ' . implode(',', $rows);
     mysqli_query($connect, $query);
 }
-
-fclose($handle);
-unlink($tmpCsv);
 
 // Re-enable keys
 mysqli_query($connect, 'ALTER TABLE colors ENABLE KEYS');
