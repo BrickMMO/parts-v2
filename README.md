@@ -5,6 +5,9 @@ This application will provide a directory of LEGO® colours, parts, and sets. Qu
 > The live website is available at:  
 > https://parts.brickmmo.com
 
+> Database Structure:  
+> https://rebrickable.com/static/img/diagrams/downloads_schema_v3.png
+
 ---
 
 ## Project Stack

@@ -9,37 +9,38 @@ mysqli_query($connect, 'DELETE FROM sets');
 mysqli_query($connect, 'ALTER TABLE sets DISABLE KEYS');
 
 $file = 'https://cdn.rebrickable.com/media/downloads/sets.csv.gz';
-$tmpFile = tempnam(sys_get_temp_dir(), 'sets') . '.gz';
-file_put_contents($tmpFile, file_get_contents($file));
 
-// Decompress to CSV
-$handleGz = gzopen($tmpFile, 'r');
-$tmpCsv = str_replace('.gz', '.csv', $tmpFile);
-$out = fopen($tmpCsv, 'wb');
-while (!gzeof($handleGz)) {
-    fwrite($out, gzread($handleGz, 8192));
+// Download the compressed file content into memory
+echo "Downloading sets file...<br>";
+$compressedData = file_get_contents($file);
+if ($compressedData === false) {
+    die('Error: Failed to download the sets file.');
 }
-gzclose($handleGz);
-fclose($out);
-unlink($tmpFile);
+
+// Decompress the data in memory
+echo "Decompressing data...<br>";
+$csvData = gzdecode($compressedData);
+if ($csvData === false) {
+    die('Error: Failed to decompress the file.');
+}
+
+// Convert to array of lines for processing
+$lines = explode("\n", $csvData);
+$header = array_shift($lines); // Remove header
+$lines = array_filter($lines); // Remove empty lines
 
 // Count total rows
-$handle = fopen($tmpCsv, 'r');
-fgetcsv($handle); // skip header
-$totalRows = 0;
-while (fgetcsv($handle) !== false) $totalRows++;
-fclose($handle);
+$totalRows = count($lines);
 
 echo "Rows in File: $totalRows<hr>";
 
-// Stream CSV and batch insert
-$handle = fopen($tmpCsv, 'r');
-fgetcsv($handle); // skip header
+// Process data in batches
 $batchSize = 1000;
 $rows = [];
 $counter = 0;
 
-while (($record = fgetcsv($handle)) !== false) {
+foreach ($lines as $line) {
+    $record = str_getcsv($line);
     $record = array_map('trim', $record);
 
     if (count($record) != 6) continue;
@@ -68,9 +69,6 @@ if (count($rows)) {
     $query = 'INSERT IGNORE INTO sets (`row`,set_num,name,year,theme_id,num_parts,img_url) VALUES ' . implode(',', $rows);
     mysqli_query($connect, $query);
 }
-
-fclose($handle);
-unlink($tmpCsv);
 
 // Re-enable keys
 mysqli_query($connect, 'ALTER TABLE sets ENABLE KEYS');

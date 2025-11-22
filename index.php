@@ -20,13 +20,13 @@ include('includes/header.php');
 
     <hr>
 
-    <h2 class="w3-blue w3-padding">Featued Sets</h2>
+    <h2 class="w3-blue w3-padding">Featured Sets</h2>
     <p>TODO: 4 RANDOM SETS</p>
 
     <hr>
 
-    <h2 class="w3-indigo w3-padding">Featued Minifigs</h2>
-    <p>TODO: 4 RANDOM MINIFIGS</p>
+    <h2 class="w3-indigo w3-padding">Featued Minifigures</h2>
+    <p>TODO: 4 RANDOM MINIFIGURES</p>
 
     <hr>
 

@@ -12,37 +12,38 @@ mysqli_query($connect, 'DELETE FROM inventory_parts');
 mysqli_query($connect, 'ALTER TABLE inventory_parts DISABLE KEYS');
 
 $fileUrl = 'https://cdn.rebrickable.com/media/downloads/inventory_parts.csv.gz';
-$tmpGz = tempnam(sys_get_temp_dir(), 'inventory_parts') . '.gz';
-$tmpCsv = str_replace('.gz', '.csv', $tmpGz);
 
-file_put_contents($tmpGz, file_get_contents($fileUrl));
-$gz = gzopen($tmpGz, 'rb');
-$out = fopen($tmpCsv, 'wb');
-while (!gzeof($gz)) fwrite($out, gzread($gz, 8192));
-gzclose($gz);
-fclose($out);
-unlink($tmpGz);
-
-// First pass: count rows
-$handle = fopen($tmpCsv, 'r');
-fgetcsv($handle); // skip header
-$totalRows = 0;
-while (fgetcsv($handle) !== false) {
-    $totalRows++;
+// Download the compressed file content into memory
+echo "Downloading inventory parts file...<br>";
+$compressedData = file_get_contents($fileUrl);
+if ($compressedData === false) {
+    die('Error: Failed to download the inventory parts file.');
 }
-fclose($handle);
 
+// Decompress the data in memory
+echo "Decompressing data...<br>";
+$csvData = gzdecode($compressedData);
+if ($csvData === false) {
+    die('Error: Failed to decompress the file.');
+}
+
+// Convert to array of lines for processing
+$lines = explode("\n", $csvData);
+$header = array_shift($lines); // Remove header
+$lines = array_filter($lines); // Remove empty lines
+
+// Count rows
+$totalRows = count($lines);
 echo 'Rows in File: '.$totalRows.'<hr>';
 
-// Second pass: process and batch insert
-$handle = fopen($tmpCsv, 'r');
-fgetcsv($handle); // skip header
+// Process and batch insert
 $batchSize = 5000;
 $rows = [];
 $counter = 0;
 
-while (($record = fgetcsv($handle)) !== false) 
-{
+foreach ($lines as $line) {
+    $record = str_getcsv($line);
+    
     if (count($record) !== 6 || !is_numeric($record[0])) continue;
 
     $rows[] = sprintf(
@@ -74,8 +75,6 @@ if (count($rows))
     mysqli_commit($connect);
 }
 
-fclose($handle);
 mysqli_query($connect, 'ALTER TABLE inventory_parts ENABLE KEYS');
-unlink($tmpCsv);
 
 echo "✅ Imported $counter records successfully.";
