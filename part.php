@@ -41,7 +41,7 @@ $category = mysqli_fetch_assoc($result);
 <nav>
     
     <a href="<?=SITE_URL?>/">Home</a> &gt; 
-    <a href="<?=SITE_URL?>/categories.php">Categgggggggories</a> &gt; 
+    <a href="<?=SITE_URL?>/categories.php">Categories</a> &gt; 
     <a href="<?=SITE_URL?>/category.php?catrgory_id=<?=$category['id']?>">Categories</a> &gt; 
     <?=$part['name']?>
 
