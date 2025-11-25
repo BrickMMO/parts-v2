@@ -9,8 +9,15 @@ mysqli_query($connect, 'DELETE FROM themes');
 mysqli_query($connect, 'ALTER TABLE themes DISABLE KEYS');
 
 $file = 'https://cdn.rebrickable.com/media/downloads/themes.csv.gz';
-$tmpFile = tempnam(sys_get_temp_dir(), 'themes') . '.gz';
-file_put_contents($tmpFile, file_get_contents($file));
+$tmpDir = __DIR__ . "/tmp";
+if (!is_dir($tmpDir)) mkdir($tmpDir, 0777, true);
+
+$tmpFile = tempnam($tmpDir, "themes_");
+file_put_contents($tmpFile . ".gz", file_get_contents($file));
+
+$tmpFile = $tmpFile . ".gz";
+$tmpCsv  = str_replace(".gz", ".csv", $tmpFile);
+
 
 // Decompress to CSV
 $handleGz = gzopen($tmpFile, 'r');

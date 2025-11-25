@@ -9,8 +9,15 @@ mysqli_query($connect, 'DELETE FROM inventories');
 mysqli_query($connect, 'ALTER TABLE inventories DISABLE KEYS');
 
 $file = 'https://cdn.rebrickable.com/media/downloads/inventories.csv.gz';
-$tmpFile = tempnam(sys_get_temp_dir(), 'inventories') . '.gz';
-file_put_contents($tmpFile, file_get_contents($file));
+$tmpDir = __DIR__ . "/tmp";
+if (!is_dir($tmpDir)) mkdir($tmpDir, 0777, true);
+
+$tmpFile = tempnam($tmpDir, "inventories_");
+file_put_contents($tmpFile . ".gz", file_get_contents($file));
+
+$tmpFile = $tmpFile . ".gz";
+$tmpCsv  = str_replace(".gz", ".csv", $tmpFile);
+
 
 $tmpCsv = str_replace('.gz', '.csv', $tmpFile);
 
