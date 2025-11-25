@@ -27,7 +27,18 @@ include('includes/header.php');
 
     <h2 class="w3-indigo w3-padding">Featured Minifigs</h2>
     <p>TODO: 4 RANDOM MINIFIGS</p>
+        <?php 
+            $query = "SELECT * FROM minifigs ORDER BY RAND() LIMIT 4";
+            $result = mysqli_query($connect, $query);
 
+            while($display = mysqli_fetch_assoc($result)) {
+                echo '<div> 
+                <img src="'.$display['img_url'].'">
+                <p>'.$display['fig_num'].'</p>
+                <p>Parts: '.$display['num_parts'].'</p>
+                </div>';
+            }
+        ?>
     <hr>
 
     <h2 class="w3-purple w3-padding">Featured Parts</h2>
