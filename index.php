@@ -39,7 +39,7 @@ include('includes/header.php');
                             </header>
                             <div class="w3-container w3-center w3-padding">
                                 <div style="position: relative; width: 100%; padding-top: 100%;">
-                                    <a href="http://localhost:8888/parts-v2/set.php?id=71858-1">
+                                    <a href="http://localhost:8888/parts-v2/set.php?id='.$randomSet['set_num'].'">
                                         
                                         <img src=' . $randomSet["img_url"] . ' alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
                                                                         
