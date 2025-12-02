@@ -21,7 +21,44 @@ include('includes/header.php');
     <hr>
 
     <h2 class="w3-blue w3-padding">Featured Sets</h2>
-    <p>TODO: 4 RANDOM SETS</p>
+    <!-- <p>TODO: 4 RANDOM SETS</p> -->
+     <div class="w3-flex" style="flex-wrap: wrap; gap:16px;">
+
+<?php
+$query = "SELECT * FROM sets ORDER BY RAND() LIMIT 4";
+$result = mysqli_query($connect, $query);
+
+while($set = mysqli_fetch_assoc($result)):
+?>
+    <div style="width: calc(25% - 16px); box-sizing:border-box; display:flex; flex-direction:column;">
+        <div class="w3-card-4 w3-margin-top w3-margin-bottom" style="height:100%; display:flex; flex-direction:column;">
+
+            <header class="w3-container w3-blue">
+                <h4 style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                    <?=$set['name']?>
+                </h4>
+            </header>
+
+            <div class="w3-container w3-center w3-padding">
+                <div style="position:relative; width:100%; padding-top:100%;">
+                    <a href="<?=SITE_URL?>/set.php?id=<?=$set['set_num']?>">
+
+                        <?php if($set['img_url'] && url_exists($set['img_url'])): ?>
+                            <img src="<?=$set['img_url']?>" style="max-width:80%; max-height:80%; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto; object-fit:contain;">
+                        <?php else: ?>
+                            <img src="<?=SITE_URL?>/images/no-image.png" style="max-width:80%; max-height:80%; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto; object-fit:contain;">
+                        <?php endif; ?>
+
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<?php endwhile; ?>
+
+</div>
+
 
     <hr>
 
