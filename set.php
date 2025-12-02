@@ -276,7 +276,7 @@ $inventory = mysqli_fetch_assoc($result);
 
 <?php elseif($_GET['tab'] == 'minifigs'): ?>
 
-<main class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
+    <main class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 
         <?php
 
@@ -340,7 +340,6 @@ $inventory = mysqli_fetch_assoc($result);
         <?php endwhile; ?>
         
     </main>
-
 
 <?php endif; ?>
 

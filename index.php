@@ -21,7 +21,8 @@ include('includes/header.php');
     <hr>
 
     <h2 class="w3-blue w3-padding">Featured Sets</h2>
-    <div style="display:flex; justify-content: space-around;">
+
+    <div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 
         <?php 
 
