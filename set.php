@@ -47,7 +47,7 @@ $inventory = mysqli_fetch_assoc($result);
 
 <nav>
     
-    <a href="<?=SITE_URL?>/">Home</a> &gt; 
+    <a href="<?=SITE_URL?>/"> Home </a> &gt; 
     <a href="<?=SITE_URL?>/themes.php">Themes</a> &gt; 
 
     <?php
