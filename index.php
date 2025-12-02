@@ -85,6 +85,8 @@ include('includes/header.php');
             FROM inventory_parts
             LEFT JOIN parts 
             ON inventory_parts.part_num = parts.part_num
+            LEFT JOIN part_categories
+            ON parts.part_cat_id= part_categories.id
             ORDER BY RAND() 
             LIMIT 4';
 ;
