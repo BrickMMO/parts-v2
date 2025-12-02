@@ -27,28 +27,16 @@ include('includes/header.php');
 
     <h2 class="w3-indigo w3-padding">Featured Minifigs</h2>
     <p>TODO: 4 RANDOM MINIFIGS</p>
-        <!-- <div style="display:flex; flex-direction:row;"> -->
+        <div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
         <?php 
             $query = "SELECT * FROM minifigs ORDER BY RAND() LIMIT 4";
             $result = mysqli_query($connect, $query);
 
             while($display = mysqli_fetch_assoc($result)) 
-                {
+            {
                 
                 echo
-                /* 
-                '
-                <div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;"> 
-                    <div >
-                        <img src="'.$display['img_url'].'">
-                    </div>
-                    <p>'.$display['fig_num'].'</p>
-                    <p>Parts: '.$display['num_parts'].'</p>
-                </div>';
-                */
-
-                '<div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
-                    <div style="width: calc(20% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+                    '<div style="width: calc(20% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
                         <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
                             <header class="w3-container w3-indigo">
                                 <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' .$display["fig_num"] . '</h6>
@@ -82,11 +70,10 @@ include('includes/header.php');
                             
                         </div>
                     </div>    
-                </div>
-           '; 
-           
-        }
+                '; 
+            }
         ?>
+        </div>
         <!-- </div> -->
     <hr>
 
