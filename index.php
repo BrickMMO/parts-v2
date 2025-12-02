@@ -92,8 +92,7 @@ include('includes/header.php');
             FROM inventory_parts
             LEFT JOIN parts 
             ON inventory_parts.part_num = parts.part_num
-            GROUP BY inventory_parts.part_num
-            WHERE inventory_id = "'.$inventory['id'].'" 
+            GROUP BY inventory_parts.part_num 
             ORDER BY RAND() 
             LIMIT 4';
         $result = mysqli_query($connect, $query);
