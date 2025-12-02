@@ -78,7 +78,7 @@ include('includes/header.php');
 
     <hr>
 
-    <h2 class="w3-purple w3-padding">Featued Parts</h2>
+    <h2 class="w3-purple w3-padding">Featured Parts</h2>
     <p>TODO: 4 RANDOM PARTS</p>
 
     
