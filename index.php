@@ -146,10 +146,13 @@ include('includes/header.php');
     <hr>
 
     <h2 class="w3-indigo w3-padding">Featured Minifigs</h2>
-    <p>TODO: 4 RANDOM MINIFIGS</p>
+    
         <div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
         <?php 
-            $query = "SELECT * FROM minifigs ORDER BY RAND() LIMIT 4";
+            $query = "SELECT * 
+                FROM minifigs 
+                ORDER BY RAND() 
+                LIMIT 5";
             $result = mysqli_query($connect, $query);
 
             while($display = mysqli_fetch_assoc($result)) 
