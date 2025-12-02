@@ -12,6 +12,8 @@
 
     <link rel="stylesheet" href="https://cdn.brickmmo.com/exceptions@1.0.0/fontawesome.css">
 
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
 </head>
 <body>
 
@@ -20,7 +22,7 @@
         <nav class="w3-row w3-section">
             <div class="w3-col s6 w3-left-align">
                 <a href="<?=SITE_URL?>/" style="font-size: 180%;">
-                    BrickMMO Ppppppartssssss
+                    BrickMMO Parts
                 </a>
             </div>
             <div class="w3-col s6 w3-right-align">

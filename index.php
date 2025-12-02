@@ -86,12 +86,62 @@ include('includes/header.php');
     <hr>
 
     <h2 class="w3-blue w3-padding">Featured Sets</h2>
-    <p>TODO: 4 RANDOM SETS</p>
 
+    <div style="display:flex; justify-content: space-around;">
+
+        <?php 
+
+        $query= 'SELECT * 
+            FROM sets 
+            ORDER BY RAND() 
+            LIMIT 4';
+        $result = mysqli_query($connect, $query);
+
+        ?>
+
+        <?php while($randomSet = mysqli_fetch_assoc($result)): ?>
+            <div style="width: calc(25% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+                <div class="w3-card-4 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
+                    <header class="w3-container w3-blue">
+                        <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= $randomSet["name"] ?></h4>
+                    </header>
+                    <div class="w3-container w3-center w3-padding">
+                        <div style="position: relative; width: 100%; padding-top: 100%;">
+                            <a href="<?=SITE_URL?>/set.php?id=<?=$randomSet["set_num"]?>">
+                                
+                                <img src="<?=$randomSet["img_url"]?>" alt="" style="max-width:80%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                    
+                            </a>
+                        </div>  
+                    </div>
+                    <table class="w3-table w3-striped w3-bordered">
+                        <thead>
+                            <tr class="w3-light-grey">
+                                <th>
+                                    <a href="<?=SITE_URL?>/set.php?id=<?=$randomSet["set_num"]?>">
+                                        <?=$randomSet["set_num"]?>
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>    
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Year: <?=$randomSet["year"]?>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    
+    </div>
     <hr>
 
-    <h2 class="w3-indigo w3-padding">Featured Minifigs</h2>
-    <p>TODO: 4 RANDOM MINIFIGS</p>
+    <h2 class="w3-indigo w3-padding">Featued Minifigures</h2>
+    <p>TODO: 4 RANDOM MINIFIGURES</p>
+
 
     <hr>
 
