@@ -83,8 +83,17 @@ include('includes/header.php');
 
     <?php 
 
-        $query= 'SELECT * 
-            FROM parts 
+        $query= 'SELECT parts.part_num, 
+            parts.name, 
+            inventory_parts.is_spare,
+            inventory_parts.img_url,
+            inventory_parts.quantity,
+            inventory_parts.is_spare
+            FROM inventory_parts
+            LEFT JOIN parts 
+            ON inventory_parts.part_num = parts.part_num
+            GROUP BY inventory_parts.part_num
+            WHERE inventory_id = "'.$inventory['id'].'" 
             ORDER BY RAND() 
             LIMIT 4';
         $result = mysqli_query($connect, $query);
