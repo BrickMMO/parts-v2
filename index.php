@@ -7,7 +7,8 @@ include('includes/functions.php');
 define('PAGE_TITLE', '');
 
 include('includes/header.php');
-
+$query = "SELECT set_num, name, img_url FROM sets ORDER BY RAND() LIMIT 4";
+$result_sets = mysqli_query($connect, $query);
 ?>
 
 <h1>LEGO&reg; Parts Directory</h1>
@@ -93,6 +94,31 @@ include('includes/header.php');
     <h2 class="w3-blue w3-padding">Featured Sets</h2>
 
 
+    <div class="w3-row-padding">
+
+        <?php while ($set = mysqli_fetch_assoc($result_sets)): ?>
+
+            <div class="w3-quarter w3-center w3-margin-top">
+            <a href="<?=SITE_URL?>/set.php?id=<?=$set['set_num']?>">
+            
+            <?php if($set['img_url'] && url_exists($set['img_url'])): ?>
+                <img src="<?=$set['img_url']?>" alt="<?=$set['name']?>" style="width:100%; max-height:150px; object-fit:contain;">
+            <?php else: ?>
+                <img src="<?=SITE_URL?>/images/no-image.png" alt="<?=$set['name']?>" style="width:100%; max-height:150px; object-fit:contain;">
+            <?php endif; ?>
+
+        </a>
+
+        <p><strong><?=$set['name']?></strong></p>
+    </div>
+
+<?php endwhile; ?>
+
+</div>
+
+    
+
+
     <div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 
         <?php 
@@ -143,6 +169,7 @@ include('includes/header.php');
         <?php endwhile; ?>
     
     </div>
+
     <hr>
 
     <h2 class="w3-indigo w3-padding">Featured Minifigs</h2>
