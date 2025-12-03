@@ -7,7 +7,8 @@ include('includes/functions.php');
 define('PAGE_TITLE', '');
 
 include('includes/header.php');
-
+$query = "SELECT set_num, name, img_url FROM sets ORDER BY RAND() LIMIT 4";
+$result_sets = mysqli_query($connect, $query);
 ?>
 
 <main style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
@@ -142,6 +143,7 @@ include('includes/header.php');
         <?php endwhile; ?>
     
     </div>
+
     <hr>
 
     <h2 class="w3-indigo w3-padding">Featured Minifigs</h2>
