@@ -26,12 +26,13 @@
                 </a>
             </div>
             <div class="w3-col s6 w3-right-align">
-                <form class="d-flex">
-                    <input class="w3-input w3-border" type="search" style="display: inline-block; margin-right: 8px; width: auto;">
-                    <button class="w3-button w3-red" style="display: inline-block;" type="submit">
-                        Search
-                    </button>
-                </form>
+                
+                <input class="w3-input w3-border" type="text" value="" placeholder="" style="max-width: 300px; display: inline-block; box-sizing: border-box; vertical-align: middle;" id="search-term">
+
+                <a href="#" class="w3-button w3-white w3-border" style="display: inline-block; box-sizing: border-box; vertical-align: middle;" id="search-button">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Search
+                </a>
+        
             </div>
         </nav>
 

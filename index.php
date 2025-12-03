@@ -10,8 +10,6 @@ include('includes/header.php');
 
 ?>
 
-<h1>LEGO&reg; Parts Directory</h1>
-
 <main style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 
     <h2 class="w3-green w3-padding">Featured Themes</h2>
@@ -36,7 +34,6 @@ include('includes/header.php');
         $result = mysqli_query($connect, $query);
 
         ?>
-
 
         <?php while ($theme = mysqli_fetch_assoc($result)): ?>
 
@@ -85,13 +82,15 @@ include('includes/header.php');
     </div>
 
     <div class="w3-margin-top">
-        <a href="<?= SITE_URL ?>/themes.php">View All Themes</a>
+
+        <button class="w3-button w3-large w3-light-grey w3-red w3-text-white w3-margin-top" 
+            onclick="window.location='<?= SITE_URL ?>/themes.php';">View all Themes</button>
+
     </div>
 
     <hr>
 
     <h2 class="w3-blue w3-padding">Featured Sets</h2>
-
 
     <div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 
@@ -147,57 +146,69 @@ include('includes/header.php');
 
     <h2 class="w3-indigo w3-padding">Featured Minifigs</h2>
     
-        <div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
-        <?php 
-            $query = "SELECT * 
-                FROM minifigs 
-                ORDER BY RAND() 
-                LIMIT 5";
-            $result = mysqli_query($connect, $query);
+    <div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 
-            while($display = mysqli_fetch_assoc($result)) 
-            {
-                
-                echo
-                    '<div style="width: calc(20% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
-                        <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
-                            <header class="w3-container w3-indigo">
-                                <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' .$display["fig_num"] . '</h6>
-                            </header>
-                            <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
-                                <div style="position: relative; width: 100%; padding-top: 100%;">
-                                    <a href="https://parts.brickmmo.com/minifig.php?id=fig-015714">
+        <?php
 
-                                        <img src="'.$display['img_url'].'" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
-                                        
-                                    </a>
-                                </div>  
-                            </div>
+        $results_per_page = PER_PAGE * 5;
+        $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $offset = ($current_page - 1) * $results_per_page;
 
-                            <table class="w3-table w3-striped w3-bordered">
-                                <thead>
-                                    <tr class="w3-light-grey">
-                                        <th>
-                                            <a href="https://parts.brickmmo.com/minifig.php?id=fig-015714">fig-015714</a>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td> 
-                                            Parts: '.$display['num_parts'].'                               
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            
-                        </div>
-                    </div>    
-                '; 
-            }
+        $query = 'SELECT *
+            FROM inventory_minifigs
+            LEFT JOIN minifigs 
+            ON inventory_minifigs.fig_num = minifigs.fig_num
+            ORDER BY RAND()
+            LIMIT 5';
+        $result = mysqli_query($connect, $query);
+
         ?>
-        </div>
-        <!-- </div> -->
+        
+        <?php while ($minifig = mysqli_fetch_assoc($result)): ?>
+
+            <div style="width: calc(20% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+                <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
+                    <header class="w3-container w3-indigo">
+                        <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$minifig['name']?></h6>
+                    </header>
+                    <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
+                        <div style="position: relative; width: 100%; padding-top: 100%;">
+                            <a href="<?=SITE_URL?>/minifig.php?id=<?=$minifig['fig_num']?>">
+
+                                <?php if($minifig['img_url'] && url_exists($minifig['img_url'])): ?>
+                                    <img src="<?=$minifig['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php else: ?>
+                                    <img src="<?=SITE_URL?>/images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php endif; ?>
+
+                            </a>
+                        </div>  
+                    </div>
+
+                    <table class="w3-table w3-striped w3-bordered">
+                        <thead>
+                            <tr class="w3-light-grey">
+                                <th>
+                                    <a href="<?=SITE_URL?>/minifig.php?id=<?=$minifig['fig_num']?>"><?=$minifig['fig_num']?></a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Parts: 
+                                    <?=$minifig['num_parts']?>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+            
+        <?php endwhile; ?>
+        
+    </div>
 
     <hr>
 
@@ -207,14 +218,28 @@ include('includes/header.php');
     <hr>
 
     <h2 class="w3-deep-orange w3-padding">Featured Categories</h2>
+    
     <p>TODO: 4 RANDOM PART CATEGORIES</p>
-    <a href="<?= SITE_URL ?>/categories.php">View All Categories</a>
+
+    <div class="w3-margin-top">
+
+        <button class="w3-button w3-large w3-light-grey w3-red w3-text-white w3-margin-top" 
+            onclick="window.location='<?= SITE_URL ?>/categories.php';">View all Categories</button>
+
+    </div>
 
     <hr>
 
     <h2 class="w3-dark-grey w3-padding">Featured Colours</h2>
+
     <p>TODO: 4 RANDOM COLOURS</p>
-    <a href="<?= SITE_URL ?>/colours.php">View All Colours</a>
+
+    <div class="w3-margin-top">
+
+        <button class="w3-button w3-large w3-light-grey w3-red w3-text-white w3-margin-top" 
+            onclick="window.location='<?= SITE_URL ?>/colours.php';">View all Colours</button>
+
+    </div>
 
 </main>
 
