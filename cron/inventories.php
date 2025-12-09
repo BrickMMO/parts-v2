@@ -74,4 +74,3 @@ mysqli_query($connect, 'ALTER TABLE inventories ENABLE KEYS');
 mysqli_query($connect, 'ALTER TABLE inventories ENABLE KEYS');
 
 echo "✅ Imported $counter records successfully.";
-?>
