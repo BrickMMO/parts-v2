@@ -80,23 +80,35 @@ include('includes/header.php');
 
     <h2 class="w3-purple w3-padding">Featured Parts</h2>
     <p>TODO: 4 RANDOM PARTS</p>
+    <div style="display:flex; justify-content: space-around;">
             <?php
-            $query = 'SELECT *
+            $query = 'SELECT parts.part_num, 
+            parts.name, 
+            inventory_parts.is_spare,
+            inventory_parts.img_url,
+            inventory_parts.quantity,
+            inventory_parts.is_spare,
+            colors.rgb,
+            colors.id AS color_id,
+            colors.name AS color_name,
+            part_categories.name AS category_name,
+            part_categories.id AS category_id 
             FROM inventory_parts
             LEFT JOIN parts 
             ON inventory_parts.part_num = parts.part_num
+            LEFT JOIN colors
+            ON colors.id = inventory_parts.color_id
             LEFT JOIN part_categories
-            ON parts.part_cat_id= part_categories.id
+            ON parts.part_cat_id = part_categories.id
             ORDER BY RAND() 
             LIMIT 4';
-;
         $result = mysqli_query($connect, $query);
 
         ?>
         
         <?php while ($part = mysqli_fetch_assoc($result)): ?>
 
-            <div style="width: calc(20% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+            <div style="width: calc(25% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
                 <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
                     <header class="w3-container w3-purple">
                         <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$part['name']?></h6>
@@ -156,6 +168,9 @@ include('includes/header.php');
             </div>
             
         <?php endwhile; ?>
+
+
+    </div>
     
     <hr>
 
