@@ -43,26 +43,40 @@ include('includes/header.php');
     
     <?php while ($colour = mysqli_fetch_assoc($result)): ?>
 
-        <div style="width: calc(25% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
-            
-            <div class="w3-card-4 w3-margin-top" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
-                <header class="w3-container w3-dark-grey">
-                    <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$colour['name']?></h4>
-                </header>
+            <div style="width: calc(25% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
 
-                TODO: COLOUR BOX
-                TODO: RGB
-                
-                <!---->
-                <div class="w3-container w3-center w3-padding-16">
-                    <a href="<?=SITE_URL?>/colour.php?id=<?=$colour['id']?>">Colour Details</a>
+                <div class="w3-card-4 w3-margin-top"
+                    style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
+                    <header class="w3-container w3-dark-grey">
+                        <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= $colour['name'] ?>
+                        </h4>
+                    </header>
+
+                    <div style="background-color: #<?=$colour['rgb']?>;">
+                    <div class="w3-container w3-text-center w3-padding-16 w3-text-white" style="weight:294px;height:150px;">
+                    </div>
                 </div>
-                <!---->
+                <table class="w3-table w3-striped w3-bordered">
+                        <thead>
+                            <tr class="w3-light-grey">
+                                <th>
+                                    #<?=$colour['rgb']?>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="<?= SITE_URL ?>/colour.php?id=<?= $colour['id'] ?>">Colour Details</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
-        </div>
-        
-    <?php endwhile; ?>
+        <?php endwhile; ?>
     
 </main>
 
