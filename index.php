@@ -220,7 +220,98 @@ $result_sets = mysqli_query($connect, $query);
 
     <h2 class="w3-purple w3-padding">Featured Parts</h2>
     <p>TODO: 4 RANDOM PARTS</p>
+    <div style="display:flex; justify-content: space-around;">
+            <?php
+            $query = 'SELECT parts.part_num, 
+            parts.name, 
+            inventory_parts.is_spare,
+            inventory_parts.img_url,
+            inventory_parts.quantity,
+            inventory_parts.is_spare,
+            colors.rgb,
+            colors.id AS color_id,
+            colors.name AS color_name,
+            part_categories.name AS category_name,
+            part_categories.id AS category_id 
+            FROM inventory_parts
+            LEFT JOIN parts 
+            ON inventory_parts.part_num = parts.part_num
+            LEFT JOIN colors
+            ON colors.id = inventory_parts.color_id
+            LEFT JOIN part_categories
+            ON parts.part_cat_id = part_categories.id
+            ORDER BY RAND() 
+            LIMIT 4';
+        $result = mysqli_query($connect, $query);
 
+        ?>
+        
+        <?php while ($part = mysqli_fetch_assoc($result)): ?>
+
+            <div style="width: calc(25% - 16px); box-sizing: border-box; display: flex; flex-direction: column;">
+                <div class="w3-card-5 w3-margin-top w3-margin-bottom" style="max-width:100%; height: 100%; display: flex; flex-direction: column;">
+                    <header class="w3-container w3-purple">
+                        <h6 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?=$part['name']?></h6>
+                    </header>
+                    <div class="w3-container w3-center w3-padding" style="flex: 1 1 auto;">
+                        <div style="position: relative; width: 100%; padding-top: 100%;">
+                            <a href="<?=SITE_URL?>/element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>">
+
+                                <?php if($part['img_url'] && url_exists($part['img_url'])): ?>
+                                    <img src="<?=$part['img_url']?>" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php else: ?>
+                                    <img src="<?=SITE_URL?>/images/no-image.png" alt="" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;  max-width: 80%; max-height: 80%; object-fit: contain;">
+                                <?php endif; ?>
+                                
+                            </a>
+                        </div>  
+                    </div>
+
+                    <table class="w3-table w3-striped w3-bordered">
+                        <thead>
+                            <tr class="w3-light-grey">
+                                <th>
+                                    <a href="<?=SITE_URL?>/element.php?id=<?=$part['part_num']?>&colour=<?=$part['color_id']?>"><?=$part['part_num']?></a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Qty: 
+                                    <?=$part['quantity']?>
+                                    <?php if($part['is_spare'] == 'True'): ?>
+                                        &#9873;
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display: inline-block; vertical-align: middle; width: 16px; height: 16px; background-color:#<?=$part['rgb']?>;"></div>
+                                    <a href="<?=SITE_URL?>/colour.php?id=<?=$part['color_id']?>">#<?=$part['rgb']?></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="<?=SITE_URL?>/category.php?id=<?=$part['category_id']?>"><?=$part['category_name']?></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!--
+                    <div class="w3-container w3-center w3-padding-16">
+                        <a href="<?=SITE_URL?>/part.php?id=<?=$part['part_num']?>">Part Details</a>
+                    </div>
+                    -->
+                </div>
+            </div>
+            
+        <?php endwhile; ?>
+
+
+    </div>
+    
     <hr>
 
 
