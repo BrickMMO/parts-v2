@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="https://cdn.brickmmo.com/exceptions@1.0.0/fontawesome.css">
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?=SITE_URL?>/favicon.ico">
 
 </head>
 <body>
