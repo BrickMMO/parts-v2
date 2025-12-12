@@ -8,8 +8,13 @@ function url_exists($url)
 
 function redirect($page)
 {
+    
+    if(substr($page, 0, 4) != 'http') $page = SITE_URL.$page;
+
     header('Location: '.$page);
+
     die();
+
 }
 
 function select($name, $options, $selected = false)

@@ -1,14 +1,14 @@
 <?php
 
-if(!isset($_GET['page']))
-{
-    header('Location: '.$_SERVER['REQUEST_URI'].'?page=1');
-    exit;
-}
-
 include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
+
+if(!isset($_GET['page']))
+{
+    redirect($_SERVER['REQUEST_URI'].'?page=1');
+    exit;
+}
 
 define('PAGE_TITLE', 'Categories');
 
