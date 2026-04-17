@@ -36,7 +36,7 @@ Follow these instructions to get the parts application up and running locally:
   ENV_LOCAL=true
   ```
 
-  > ![NOTE] Change the host and password based on your MAMP settings. 
+  > [!NOTE] Change the host and password based on your MAMP settings. 
 
 4) 
 
