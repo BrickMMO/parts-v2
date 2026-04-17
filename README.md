@@ -19,9 +19,11 @@ Follow these instructions to get the parts application up and running locally:
   cd parts-v2
   ```
   
-2) Start MAMP, open phpMyAdmin and create a new database called `brickmmo_parts`. Import the file names `brickmmo_parts.sql`. This will create all required empty tables. 
+2) Start MAMP. Change the root folder to the `parets-v2` folder.
 
-3) Make a copy of the `.env.sample` file and name it `.env`. Change the values as follows:
+3) Open phpMyAdmin and create a new database called `brickmmo_parts`. Import the file names `brickmmo_parts.sql`. This will create all required empty tables. 
+
+4) Make a copy of the `.env.sample` file and name it `.env`. Change the values as follows:
 
   ```
   DB_HOST=localhost
