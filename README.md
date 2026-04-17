@@ -37,12 +37,11 @@ Follow these instructions to get the parts application up and running locally:
   ```
 
   > [!NOTE]  
-  > Change the host and password based on your MAMP settings. 
+  > Make sure the host and password reflect your MAMP settings. 
 
-4) 
+4) Open the website and navigate to the cron folder: `http://localhost/cron`. Click through each cron job to import the [Rebrickable](https://rebrickable.com/) data.
 
-
-
+5) Open the website home page and browse around to ensure everything is working.
 
 ---
 
