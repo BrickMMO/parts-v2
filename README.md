@@ -8,6 +8,41 @@ This application will provide a directory of LEGO® colours, parts, and sets. Qu
 > Database Structure:  
 > https://rebrickable.com/static/img/diagrams/downloads_schema_v3.png
 
+## Setup
+
+Follow these instructions to get the parts application up and running locally:
+
+1) Clone the repo to your local environment:
+
+  ```
+  git clone https://github.com/BrickMMO/parts-v2.git
+  cd parts-v2
+  ```
+  
+2) Start MAMP, open phpMyAdmin and create a new database called `brickmmo_parts`.
+
+3) Make a copy of the `.env.sample` file and name it `.env`. Change the values as follows:
+
+  ```
+  DB_HOST=localhost
+  DB_DATABASE=brickmmo_parts
+  DB_USERNAME=root
+  DB_PASSWORD=root
+
+  PER_PAGE=10
+
+  SITE_URL=http://localhost
+
+  ENV_LOCAL=true
+  ```
+
+  > ![NOTE] Change the host and password based on your MAMP settings. 
+
+4) 
+
+
+
+
 ---
 
 ## Project Stack
