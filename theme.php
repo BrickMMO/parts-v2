@@ -10,6 +10,9 @@ include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
 
+
+
+
 $query = 'SELECT *,(
         SELECT COUNT(*) 
         FROM themes AS subthemmes
