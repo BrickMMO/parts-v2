@@ -41,6 +41,9 @@ Follow these instructions to get the parts application up and running locally:
 
 4) Open the website and navigate to the cron folder: `http://localhost/cron`. Click through each cron job to import the [Rebrickable](https://rebrickable.com/) data.
 
+  > [!NOTE]  
+  > The imports will run quickly with the exception of the `inventory_parts.php` file. This file will take 30 to 60 seconds to complete. 
+
 5) Open the website home page and browse around to ensure everything is working.
 
 ---
