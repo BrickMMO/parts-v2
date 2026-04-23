@@ -83,31 +83,43 @@ include('includes/header.php');
     <div class="w3-bar">            
 
         <?php
-            
-        $query = 'SELECT *,(
-                SELECT MAX(year) 
-                FROM sets 
-                WHERE sets.theme_id = themes.id
-            ) AS year
-            FROM themes 
-            WHERE parent_id = 0
-            HAVING year IS NOT NULL';
-        $result = mysqli_query($connect, $query);
 
-        $count_row = mysqli_num_rows($result);
-        $totalPages = ceil($count_row / $results_per_page);
+        // Count total categories
+        $countQuery = "SELECT COUNT(*) AS total FROM part_categories";
+        $countResult = mysqli_query($connect, $countQuery);
+        $countRow = mysqli_fetch_assoc($countResult);
+        $totalPages = ceil($countRow['total'] / $results_per_page);
 
-        // Display pagination links
-        for ($i = 1; $i <= $totalPages; $i++) 
-        {
-            echo '<a href="'.SITE_URL.'themes.php';
-            if($i > 1) echo '?page='.$i;
-            echo '" class="w3-button';
-            if($i == $current_page) echo ' w3-border';
-            echo '">'.$i.'</a>';
+        // Build pagination window
+        $pagination = buildPagination($current_page, $totalPages);
+
+        // Previous button
+        if ($current_page > 1) {
+            echo '<a href="?page='.($current_page - 1).'" class="w3-button">Previous</a>';
+        } else {
+            echo '<span class="w3-button w3-disabled">Previous</span>';
+        }
+
+        // Page numbers
+        foreach ($pagination as $p) {
+            if ($p === "...") {
+                echo '<span class="w3-button w3-disabled">...</span>';
+            } elseif ($p == $current_page) {
+                echo '<span class="w3-button w3-border"><b>'.$p.'</b></span>';
+            } else {
+                echo '<a href="?page='.$p.'" class="w3-button">'.$p.'</a>';
+            }
+        }
+
+        // Next button
+        if ($current_page < $totalPages) {
+            echo '<a href="?page='.($current_page + 1).'" class="w3-button">Next</a>';
+        } else {
+            echo '<span class="w3-button w3-disabled">Next</span>';
         }
 
         ?>
+
 
     </div>
 

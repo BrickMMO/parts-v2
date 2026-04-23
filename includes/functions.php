@@ -87,3 +87,42 @@ function number_to_string($number)
 
     return $strings[$number];
 }
+
+function buildPagination($current, $total) {
+    $maxVisible = 11;
+    $pages = [];
+
+    // Always show first page
+    $pages[] = 1;
+
+    // If total pages <= 11, show all
+    if ($total <= $maxVisible) {
+        for ($i = 2; $i <= $total; $i++) {
+            $pages[] = $i;
+        }
+        return $pages;
+    }
+
+    $left = max(2, $current - 5);
+    $right = min($total - 1, $current + 5);
+
+    // Left ellipsis
+    if ($left > 2) {
+        $pages[] = "...";
+    }
+
+    // Middle pages
+    for ($i = $left; $i <= $right; $i++) {
+        $pages[] = $i;
+    }
+
+    // Right ellipsis
+    if ($right < $total - 1) {
+        $pages[] = "...";
+    }
+
+    // Always show last page
+    $pages[] = $total;
+
+    return $pages;
+}
