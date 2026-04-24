@@ -191,7 +191,7 @@ $result_sets = mysqli_query($connect, $query);
                         <thead>
                             <tr class="w3-light-grey">
                                 <th>
-                                    <a href="<?=SITE_URL?>/minifig.php?id=<?=$minifig['fig_num']?>"><?=$minifig['fig_num']?></a>
+                                    <a href="<?=SITE_URL?>/minifig.php?id=<?=$minifig['fig_num']?>"></a>
                                 </th>
                             </tr>
                         </thead>
@@ -211,6 +211,12 @@ $result_sets = mysqli_query($connect, $query);
         <?php endwhile; ?>
         
     </div>
+
+    <hr>
+
+    <h2 class="w3-purple w3-padding">Minifigs</h2>
+
+    
 
     <hr>
 
