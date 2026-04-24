@@ -1,14 +1,14 @@
 <?php
 
-if(!isset($_GET['page']))
-{
-    header('Location: '.$_SERVER['REQUEST_URI'].'&page=1');
-    exit;
-}
-
 include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
+
+if(!isset($_GET['page']))
+{
+    redirect($_SERVER['REQUEST_URI'].'&page=1');
+    exit;
+}
 
 $query = 'SELECT *
     FROM part_categories
@@ -29,7 +29,7 @@ include('includes/header.php');
 <nav>
     
     <a href="<?=SITE_URL?>/">Home</a> &gt; 
-    <a href="<?=SITE_URL?>/categories.php">CategoRRRRRRries</a> &gt; 
+    <a href="<?=SITE_URL?>/categories.php">Categories</a> &gt; 
     <?=$category['name']?>
 
 </nav>

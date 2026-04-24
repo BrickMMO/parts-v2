@@ -23,7 +23,7 @@ include('includes/header.php');
 <nav>
     
     <a href="<?=SITE_URL?>/">Home</a> &gt;
-    <a href="<?=SITE_URL?>/colours.php">Collllooooooours</a> &gt; 
+    <a href="<?=SITE_URL?>/colours.php">Colours</a> &gt; 
     <?=$colour['name']?>
 
 </nav>

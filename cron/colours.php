@@ -76,4 +76,4 @@ if (count($rows)) {
 mysqli_query($connect, 'ALTER TABLE colors ENABLE KEYS');
 
 echo "✅ Imported $counter records successfully.";
-?>
+
