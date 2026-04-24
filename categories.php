@@ -67,7 +67,7 @@ include('includes/header.php');
 
                 <!--
                 <div class="w3-container w3-center w3-padding-16">
-                    <a href="<?=SITE_URL?>/category.php?id=<?=$category['id']?>">Theme Details</a>
+                    <a href="<?=SITE_URL?>/category.php?id=<?=$category['id']?>">Category Details</a>
                 </div>
                 -->
             </div>
@@ -84,14 +84,8 @@ include('includes/header.php');
 
         <?php
             
-        $query = 'SELECT *,(
-                SELECT MAX(year) 
-                FROM sets 
-                WHERE sets.theme_id = themes.id
-            ) AS year
-            FROM themes 
-            WHERE parent_id = 0
-            HAVING year IS NOT NULL';
+        $query = 'SELECT id
+            FROM part_categories';
         $result = mysqli_query($connect, $query);
 
         $count_row = mysqli_num_rows($result);
@@ -100,8 +94,7 @@ include('includes/header.php');
         // Display pagination links
         for ($i = 1; $i <= $totalPages; $i++) 
         {
-            echo '<a href="'.SITE_URL.'themes.php';
-            if($i > 1) echo '?page='.$i;
+            echo '<a href="'.SITE_URL.'categories.php?page='.$i;
             echo '" class="w3-button';
             if($i == $current_page) echo ' w3-border';
             echo '">'.$i.'</a>';
