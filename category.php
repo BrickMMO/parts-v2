@@ -33,7 +33,7 @@ include('includes/header.php');
     <?=$category['name']?>
 
 </nav>
-
+  
 <hr>
 
 <main class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
