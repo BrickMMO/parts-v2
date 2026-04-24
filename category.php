@@ -33,14 +33,14 @@ include('includes/header.php');
     <?=$category['name']?>
 
 </nav>
-
+  
 <hr>
 
 <main class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 
         <?php
 
-        $results_per_page = PER_PAGE * 5;
+        $results_per_page = PER_PAGE * 4;
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $results_per_page;
 
