@@ -22,7 +22,7 @@
         <nav class="w3-row w3-section">
             <div class="w3-col s6 w3-left-align">
                 <a href="<?=SITE_URL?>/" style="font-size: 180%;">
-                    Parts Directory
+                    BrickMMO Parts
                 </a>
             </div>
             <div class="w3-col s6 w3-right-align">
